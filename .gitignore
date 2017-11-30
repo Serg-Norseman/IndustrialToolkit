@@ -1,0 +1,11 @@
+**/.vs/
+/*.exe*
+/*.dll
+*.pdb
+*.mdb
+*.suo
+*.userprefs
+*.DotSettings.user
+
+/bin/
+/obj/
