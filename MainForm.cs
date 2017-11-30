@@ -199,19 +199,15 @@ namespace RSVTagsExtractor
 
             string nodeName = parentName + "|" + node.Attributes["name"].InnerText + ext;
 
-            string tagLine;
             DataRow tagRow = SearchTag(expr);
-            if (tagRow == null) {
-                if (!ProcessExpression(ref expr, nodeName, wrtOut)) {
-                    //tagLine = "Tag not found";
-                    //textBox1.AppendText(">> " + tagLine + "\r\n" + expr + "\r\n");
-                }
+            if (tagRow != null) {
+                WriteTagInfo(tagRow, nodeName, wrtOut);
             } else {
-                //WriteTagInfo(tagRow, nodeName, wrtOut);
+                ProcessExpression(expr, nodeName, wrtOut);
             }
         }
 
-        private bool ProcessExpression(ref string expr, string nodeName, StreamWriter wrtOut)
+        private void ProcessExpression(string expr, string nodeName, StreamWriter wrtOut)
         {
             expr = expr.Trim();
             expr = expr.Replace("\r", "~").Replace("\n", "~").Replace("{", "~").Replace("}", "~");
@@ -248,8 +244,6 @@ namespace RSVTagsExtractor
                     }
                 }
             }
-
-            return false;
         }
 
         private void btnSelectOutputCSV_Click(object sender, EventArgs e)
