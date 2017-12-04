@@ -7,7 +7,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("WCCTagsExtractor")]
-[assembly: AssemblyCopyright("Copyright © 2017 Sergey V. Zhdanovskikh")]
+[assembly: AssemblyCopyright("Copyright © 2017 Sergey V. Zhdanovskih")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 [assembly: ComVisible(false)]

@@ -14,6 +14,9 @@
         private System.Windows.Forms.Button btnSelectCSV;
         private System.Windows.Forms.Button btnSelectPDL;
         private System.Windows.Forms.TextBox txtPDLFilename;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.ComboBox cmbEncoding;
+        private System.Windows.Forms.CheckBox chkDebugMode;
         
         /// <summary>
         /// Disposes resources used by the form.
@@ -44,6 +47,9 @@
             this.btnExtract = new System.Windows.Forms.Button();
             this.btnSelectCSV = new System.Windows.Forms.Button();
             this.btnSelectPDL = new System.Windows.Forms.Button();
+            this.label1 = new System.Windows.Forms.Label();
+            this.cmbEncoding = new System.Windows.Forms.ComboBox();
+            this.chkDebugMode = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // textBox1
@@ -119,11 +125,44 @@
             this.btnSelectPDL.UseVisualStyleBackColor = true;
             this.btnSelectPDL.Click += new System.EventHandler(this.btnSelectPDL_Click);
             // 
+            // label1
+            // 
+            this.label1.Location = new System.Drawing.Point(344, 160);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(100, 23);
+            this.label1.TabIndex = 11;
+            this.label1.Text = "Encoding";
+            // 
+            // cmbEncoding
+            // 
+            this.cmbEncoding.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbEncoding.FormattingEnabled = true;
+            this.cmbEncoding.Items.AddRange(new object[] {
+            "ASCII",
+            "Win1251",
+            "Unicode"});
+            this.cmbEncoding.Location = new System.Drawing.Point(450, 157);
+            this.cmbEncoding.Name = "cmbEncoding";
+            this.cmbEncoding.Size = new System.Drawing.Size(148, 24);
+            this.cmbEncoding.TabIndex = 12;
+            // 
+            // chkDebugMode
+            // 
+            this.chkDebugMode.Location = new System.Drawing.Point(717, 154);
+            this.chkDebugMode.Name = "chkDebugMode";
+            this.chkDebugMode.Size = new System.Drawing.Size(155, 31);
+            this.chkDebugMode.TabIndex = 13;
+            this.chkDebugMode.Text = "DebugMode";
+            this.chkDebugMode.UseVisualStyleBackColor = true;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1065, 539);
+            this.Controls.Add(this.chkDebugMode);
+            this.Controls.Add(this.cmbEncoding);
+            this.Controls.Add(this.label1);
             this.Controls.Add(this.textBox1);
             this.Controls.Add(this.txtOutputFilename);
             this.Controls.Add(this.txtCSVFilename);

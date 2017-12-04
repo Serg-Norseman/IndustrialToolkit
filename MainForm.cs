@@ -16,10 +16,35 @@ namespace WCCTagsExtractor
 
         private DataTable fCSVData;
 
+        private int fEncodingIndex;
+        private Encoding fEncoding;
+        private bool fIsUnicode;
+
         public MainForm()
         {
             InitializeComponent();
 
+            cmbEncoding.SelectedIndex = 0;
+        }
+
+        private void DefineEncoding()
+        {
+            fEncodingIndex = cmbEncoding.SelectedIndex;
+            fIsUnicode = false;
+            switch (fEncodingIndex) {
+                case 0:
+                    fEncoding = Encoding.ASCII;
+                    break;
+
+                case 1:
+                    fEncoding = Encoding.GetEncoding(1251);
+                    break;
+
+                case 2:
+                    fIsUnicode = true;
+                    fEncoding = Encoding.Unicode;
+                    break;
+            }
         }
 
         void btnSelectPDL_Click(object sender, EventArgs e)
@@ -38,12 +63,16 @@ namespace WCCTagsExtractor
                     fCSVFilename = path + "\\tags.csv";
                     txtCSVFilename.Text = fCSVFilename;
 
-                    //ParsePDL();
+                    DefineEncoding();
+
+                    if (chkDebugMode.Checked) {
+                        ParsePDL(true);
+                    }
                 }
             }
         }
 
-        private void ParsePDL()
+        private void ParsePDL(bool debug)
         {
             textBox1.Clear();
 
@@ -53,69 +82,104 @@ namespace WCCTagsExtractor
                     byte[] bytes = cfStm.GetData();
                     using (var ms = new MemoryStream(bytes)) {
                         using (var binRd = new BinaryReader(ms, Encoding.Unicode)) {
-                            ParsePDL(binRd, null);
+                            ParsePDL(binRd, null, debug);
                         }
                     }
                 }
             }
         }
 
-        private void ParsePDL(BinaryReader binReader, StreamWriter wrtOut)
+        private void ParsePDL(BinaryReader binReader, StreamWriter wrtOut, bool debug)
         {
-            //int tagsCount = binRd.ReadInt32();
+            try {
+                int size = -1;
+                int num = 0;
+                //for (int i = 0; i < tagsCount; i++) {
+                while (binReader.BaseStream.Position < binReader.BaseStream.Length) {
+                    num += 1;
+                    byte[] recHeader = binReader.ReadBytes(10);
+                    if (num == 1) {
+                        size = recHeader[0];
+                    }
 
-            int size = -1;
-            int num = 0;
-            //for (int i = 0; i < tagsCount; i++) {
-            while (binReader.BaseStream.Position < binReader.BaseStream.Length) {
-                num += 1;
-                byte[] recHeader = binReader.ReadBytes(10);
-                if (num == 1) {
-                    size = recHeader[0];
-                }
+                    int code;
+                    string objName, propName, tagName = "";
+                    objName = ReadStr(binReader, out code);
+                    propName = ReadStr(binReader, out code);
+                    if (code != -1) {
+                        tagName = ReadStr(binReader, out code);
+                    }
 
-                int code;
-                string objName, propName, tagName = "";
-                objName = ReadStr(binReader, out code);
-                propName = ReadStr(binReader, out code);
-                if (code != -1) {
-                    tagName = ReadStr(binReader, out code);
+                    ProcessTag(num, objName, propName, tagName, wrtOut, debug);
+                    
+                    if (num == size) {
+                        MessageBox.Show("All readed");
+                        break;
+                    }
                 }
-
-                ProcessTag(num, objName, propName, tagName, wrtOut);
-                
-                if (num == size) {
-                    MessageBox.Show("All readed");
-                    break;
-                }
+            } catch (Exception ex) {
+                MessageBox.Show(ex.Message);
             }
         }
 
         private string ReadStr(BinaryReader binReader, out int code)
         {
-            byte[] bom = binReader.ReadBytes(3);
-            //if (code == 13 || code == 16) return "";
+            if (fIsUnicode) {
+                byte[] bom = binReader.ReadBytes(3);
+                //if (code == 13 || code == 16) return "";
 
-            byte strLen = binReader.ReadByte();
-            if (strLen == 0) {
-                code = -1;
-                return "";
+                byte strLen = binReader.ReadByte();
+                if (strLen == 0) {
+                    code = -1;
+                    return "";
+                } else {
+                    code = 0;
+                }
+
+                byte[] strBytes = binReader.ReadBytes(strLen * 2);
+                return Encoding.Unicode.GetString(strBytes);
             } else {
-                code = 0;
-            }
+                byte[] strBytes = new byte[255];
+                int i = 0;
+                byte bt;
+                bt = binReader.ReadByte();
+                if (bt == 0x02) {
+                    code = -1;
+                    binReader.BaseStream.Seek(+1, SeekOrigin.Current);
+                    return "";
+                } else {
+                    if (bt == 0x04) {
+                        code = -1;
+                        //binReader.BaseStream.Seek(-1, SeekOrigin.Current);
+                        return "";
+                    } else {
+                        code = 0;
+                        binReader.BaseStream.Seek(-1, SeekOrigin.Current);
+                    }
+                }
 
-            byte[] strBytes = binReader.ReadBytes(strLen * 2);
-            return Encoding.Unicode.GetString(strBytes);
+                while ((bt = binReader.ReadByte()) != 0x0A) {
+                    strBytes[i] = bt;
+                    i++;
+                }
+                return fEncoding.GetString(strBytes, 0, i);
+            }
         }
 
-        private void ProcessTag(int num, string objName, string propName, string tagName, StreamWriter wrtOut)
+        private void ProcessTag(int num, string objName, string propName, string tagName, StreamWriter wrtOut, bool debug)
         {
-            if (string.IsNullOrEmpty(propName) || string.IsNullOrEmpty(tagName)) return;
-            if (tagName.EndsWith("_COMMENT") || tagName.EndsWith("_FORMAT") || tagName.EndsWith("_UNITS") || tagName.EndsWith("_SHORT")) return;
+            DataRow row = null;
 
-            DataRow row = SearchTag(tagName);
-            if (row != null) {
-                WriteTagInfo(row, objName+"@"+propName, wrtOut);
+            if (!debug) {
+                if (string.IsNullOrEmpty(propName) || string.IsNullOrEmpty(tagName)) return;
+                if (tagName.EndsWith("_COMMENT") || tagName.EndsWith("_FORMAT") || tagName.EndsWith("_UNITS") || tagName.EndsWith("_SHORT")) return;
+
+                if (wrtOut != null) {
+                    row = SearchTag(tagName);
+                    if (row != null) {
+                        WriteTagInfo(row, objName+"@"+propName, wrtOut);
+                    }
+                }
             }
 
             textBox1.AppendText(num.ToString() + " | " + objName + " | " + propName + " | " + tagName + " | " + ((row == null) ? "" : "ok") + "\r\n");
@@ -201,7 +265,7 @@ namespace WCCTagsExtractor
                     byte[] bytes = cfStm.GetData();
                     using (var ms = new MemoryStream(bytes)) {
                         using (var binRd = new BinaryReader(ms, Encoding.Unicode)) {
-                            ParsePDL(binRd, wrtOut);
+                            ParsePDL(binRd, wrtOut, false);
                         }
                     }
                 }
@@ -218,6 +282,7 @@ namespace WCCTagsExtractor
         void btnSelectCSV_Click(object sender, EventArgs e)
         {
             using (var ofd = new OpenFileDialog()) {
+                ofd.Filter = "WinCC tags database (*.csv)|*.csv";
                 if (ofd.ShowDialog() == DialogResult.OK) {
                     fCSVFilename = ofd.FileName;
                     txtCSVFilename.Text = fCSVFilename;
