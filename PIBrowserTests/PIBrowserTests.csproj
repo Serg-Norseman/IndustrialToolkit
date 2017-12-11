@@ -8,8 +8,9 @@
     <OutputType>Library</OutputType>
     <RootNamespace>PIBrowserTests</RootNamespace>
     <AssemblyName>PIBrowserTests</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <AppDesignerFolder>Properties</AppDesignerFolder>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Platform)' == 'AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -42,6 +43,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\BSLib\BSLib\BSLib.csproj">
+      <Project>{f657a1b7-c834-420a-b302-88460e3f6283}</Project>
+      <Name>BSLib</Name>
+    </ProjectReference>
     <ProjectReference Include="..\PIBrowser\PIBrowser.csproj">
       <Project>{C6B8E368-7807-440A-9A48-03B3A89C5878}</Project>
       <Name>PIBrowser</Name>
