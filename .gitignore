@@ -12,5 +12,6 @@
 
 /PIBrowserTests/bin/
 /PIBrowserTests/obj/
+/PIBrowserTests/OpenCover/
 
 /temp/

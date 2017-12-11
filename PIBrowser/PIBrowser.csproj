@@ -1,0 +1,123 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="Build">
+  <PropertyGroup>
+    <ProjectGuid>{C6B8E368-7807-440A-9A48-03B3A89C5878}</ProjectGuid>
+    <ProjectTypeGuids>{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <OutputType>WinExe</OutputType>
+    <RootNamespace>PIBrowser</RootNamespace>
+    <AssemblyName>PIBrowser</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <TargetFrameworkProfile />
+    <NoWin32Manifest>False</NoWin32Manifest>
+    <SignAssembly>False</SignAssembly>
+    <DelaySign>False</DelaySign>
+    <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
+    <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
+    <NoStdLib>False</NoStdLib>
+    <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
+    <IntermediateOutputPath>obj\$(Configuration)\</IntermediateOutputPath>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Platform)' == 'AnyCPU' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <BaseAddress>4194304</BaseAddress>
+    <RegisterForComInterop>False</RegisterForComInterop>
+    <GenerateSerializationAssemblies>Auto</GenerateSerializationAssemblies>
+    <FileAlignment>4096</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+    <OutputPath>bin\Debug\</OutputPath>
+    <DebugSymbols>True</DebugSymbols>
+    <DebugType>Full</DebugType>
+    <Optimize>False</Optimize>
+    <CheckForOverflowUnderflow>True</CheckForOverflowUnderflow>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <BaseIntermediateOutputPath>obj\</BaseIntermediateOutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <OutputPath>bin\Release\</OutputPath>
+    <DebugSymbols>False</DebugSymbols>
+    <DebugType>None</DebugType>
+    <Optimize>True</Optimize>
+    <CheckForOverflowUnderflow>False</CheckForOverflowUnderflow>
+    <DefineConstants>TRACE</DefineConstants>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="piapi32">
+      <HintPath>libs\x86\piapi32.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="ZedGraph">
+      <HintPath>libs\ZedGraph.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="bsDataMath.cs" />
+    <Compile Include="bsTrendChart.cs" />
+    <Compile Include="Forms\AboutDlg.cs" />
+    <Compile Include="Forms\AboutDlg.Designer.cs">
+      <DependentUpon>AboutDlg.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\ConnectionDlg.cs" />
+    <Compile Include="Forms\ConnectionDlg.Designer.cs">
+      <DependentUpon>ConnectionDlg.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\PIBrowserWin.cs" />
+    <Compile Include="Forms\PIBrowserWin.Designer.cs">
+      <DependentUpon>PIBrowserWin.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\TrendsOptionsDlg.cs" />
+    <Compile Include="Forms\TrendsOptionsDlg.Designer.cs">
+      <DependentUpon>TrendsOptionsDlg.cs</DependentUpon>
+    </Compile>
+    <Compile Include="PI\PIAPI32.cs" />
+    <Compile Include="common\BaseObject.cs" />
+    <Compile Include="common\CSVReader.cs" />
+    <Compile Include="common\ExtList.cs" />
+    <Compile Include="common\IniFile.cs" />
+    <Compile Include="common\IniFiles\IniFileBlankLine.cs" />
+    <Compile Include="common\IniFiles\IniFileCommentary.cs" />
+    <Compile Include="common\IniFiles\IniFileElement.cs" />
+    <Compile Include="common\IniFiles\IniFileEx.cs" />
+    <Compile Include="common\IniFiles\IniFileSection.cs" />
+    <Compile Include="common\IniFiles\IniFileSectionStart.cs" />
+    <Compile Include="common\IniFiles\IniFileValue.cs" />
+    <Compile Include="common\StringList.cs" />
+    <Compile Include="common\SysUtils.cs" />
+    <Compile Include="Filters\LowPassFilter.cs" />
+    <Compile Include="Filters\SplineFilter.cs" />
+    <Compile Include="PIBUtils.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RadioGroup.cs" />
+    <Compile Include="VGPaintBox.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <EmbeddedResource Include="Resources\about.gif" />
+    <EmbeddedResource Include="Resources\clock.png" />
+    <EmbeddedResource Include="Resources\configure.gif" />
+    <EmbeddedResource Include="Resources\delete.gif" />
+    <EmbeddedResource Include="Resources\load.gif" />
+    <EmbeddedResource Include="Resources\options.gif" />
+    <EmbeddedResource Include="Resources\print.gif" />
+    <EmbeddedResource Include="Resources\save.gif" />
+    <EmbeddedResource Include="Resources\taggr.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="common" />
+    <Folder Include="common\IniFiles" />
+    <Folder Include="Filters" />
+    <Folder Include="Forms" />
+    <Folder Include="PI" />
+    <Folder Include="Resources" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>
