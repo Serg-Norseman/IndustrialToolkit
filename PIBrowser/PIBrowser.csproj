@@ -59,7 +59,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="bsDataMath.cs" />
+    <Compile Include="PIBDataMath.cs" />
     <Compile Include="bsTrendChart.cs" />
     <Compile Include="Forms\AboutDlg.cs" />
     <Compile Include="Forms\AboutDlg.Designer.cs">
@@ -103,6 +103,10 @@
     <Folder Include="Resources" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\BSLib\BSLib.Controls\BSLib.Controls.csproj">
+      <Project>{3180214e-8bfd-4b0b-ad9b-e298fae67ccb}</Project>
+      <Name>BSLib.Controls</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\BSLib\BSLib\BSLib.csproj">
       <Project>{f657a1b7-c834-420a-b302-88460e3f6283}</Project>
       <Name>BSLib</Name>
