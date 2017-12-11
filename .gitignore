@@ -7,6 +7,10 @@
 *.userprefs
 *.DotSettings.user
 
-/bin/
-/obj/
+/PIBrowser/bin/
+/PIBrowser/obj/
+
+/PIBrowserTests/bin/
+/PIBrowserTests/obj/
+
 /temp/

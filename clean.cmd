@@ -1,3 +1,7 @@
 rmdir .\.vs /s /q
-rmdir .\bin /s /q
-rmdir .\obj /s /q
+
+rmdir .\PIBrowser\bin /s /q
+rmdir .\PIBrowser\obj /s /q
+
+rmdir .\PIBrowserTests\bin /s /q
+rmdir .\PIBrowserTests\obj /s /q
