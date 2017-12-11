@@ -60,7 +60,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="PIBDataMath.cs" />
-    <Compile Include="bsTrendChart.cs" />
+    <Compile Include="PIBTrendChart.cs" />
     <Compile Include="Forms\AboutDlg.cs" />
     <Compile Include="Forms\AboutDlg.Designer.cs">
       <DependentUpon>AboutDlg.cs</DependentUpon>
