@@ -396,7 +396,7 @@ namespace PIBrowser
         }
     }
 
-    public class TrendChart : VGPaintBox
+    public class TrendChart : ZGraphControl
     {
         private bool fAroundZoom;
         private Color fBackColor;

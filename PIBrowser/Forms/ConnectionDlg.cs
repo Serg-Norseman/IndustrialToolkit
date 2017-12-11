@@ -15,7 +15,7 @@ namespace PIBrowser
                     PIBrowserWin.Instance.ConUser = this.txtUser.Text;
                     PIBrowserWin.Instance.ConPassword = this.txtPassword.Text;
 
-                    if (!PIBrowserWin.Instance.BaseCon()) {
+                    if (!PIBrowserWin.Instance.Connect()) {
                         PIBUtils.ShowError("Внесенные данные не соответствуют. Повторите попытку");
                     } else {
                         if (this.cmbServer.Items.IndexOf(this.cmbServer.Text) == -1) {
@@ -23,7 +23,7 @@ namespace PIBrowser
                         }
                         PIBrowserWin.Instance.SaveConnectionSettings();
 
-                        PIBrowserWin.Instance.OptionsLoad();
+                        PIBrowserWin.Instance.LoadOptions();
                         base.Hide();
                         PIBrowserWin.Instance.Timer1.Enabled = false;
                         PIBrowserWin.Instance.Timer1.Interval = 30000;
