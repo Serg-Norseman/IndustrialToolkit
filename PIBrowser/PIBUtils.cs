@@ -1,4 +1,22 @@
-﻿using System;
+﻿/*
+ *  "PIBrowser", the PISystem tags browser.
+ *  Copyright (C) 2007-2017 by Sergey V. Zhdanovskih.
+ *
+ *  This program is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+using System;
 using System.Drawing;
 using System.IO;
 using System.Reflection;
@@ -362,20 +380,20 @@ namespace PIBrowser
             sdt = sdt.Date;
             if (session == -1) {
                 if (direct) {
-                    rangeBeg = sdt.AddTicks(StrToTime("00:00:01").Ticks);
-                    rangeEnd = sdt.AddTicks(StrToTime("23:59:59").Ticks);
+                    rangeBeg = sdt.AddTicks(StrToTime("00:00:01").TimeOfDay.Ticks);
+                    rangeEnd = sdt.AddTicks(StrToTime("23:59:59").TimeOfDay.Ticks);
                 } else {
-                    rangeBeg = sdt.AddDays(-1).AddTicks(StrToTime("20:00:01").Ticks);
-                    rangeEnd = sdt.AddDays(+0).AddTicks(StrToTime("19:59:59").Ticks);
+                    rangeBeg = sdt.AddDays(-1).AddTicks(StrToTime("20:00:01").TimeOfDay.Ticks);
+                    rangeEnd = sdt.AddDays(+0).AddTicks(StrToTime("19:59:59").TimeOfDay.Ticks);
                 }
             } else if (session != 1) {
                 if (session == 2) {
-                    rangeBeg = sdt.AddTicks(StrToTime("08:00:01").Ticks);
-                    rangeEnd = sdt.AddTicks(StrToTime("19:59:59").Ticks);
+                    rangeBeg = sdt.AddTicks(StrToTime("08:00:01").TimeOfDay.Ticks);
+                    rangeEnd = sdt.AddTicks(StrToTime("19:59:59").TimeOfDay.Ticks);
                 }
             } else {
-                rangeBeg = sdt.AddDays(-1).AddTicks(StrToTime("20:00:01").Ticks);
-                rangeEnd = sdt.AddDays(0).AddTicks(StrToTime("07:59:59").Ticks);
+                rangeBeg = sdt.AddDays(-1).AddTicks(StrToTime("20:00:01").TimeOfDay.Ticks);
+                rangeEnd = sdt.AddDays(0).AddTicks(StrToTime("07:59:59").TimeOfDay.Ticks);
             }
         }
 

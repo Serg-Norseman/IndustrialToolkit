@@ -1,9 +1,28 @@
-﻿using System;
+﻿/*
+ *  "PIBrowser", the PISystem tags browser.
+ *  Copyright (C) 2007-2017 by Sergey V. Zhdanovskih.
+ *
+ *  This program is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
 using GKCommon;
 using PIBrowser.Filters;
+using ZedGraph;
 
 namespace PIBrowser
 {
@@ -396,8 +415,10 @@ namespace PIBrowser
         }
     }
 
-    public class TrendChart : ZGraphControl
+    public class TrendChart : UserControl
     {
+        private readonly ZedGraphControl fGraph;
+
         private bool fAroundZoom;
         private Color fBackColor;
         private DateTime fBegDateTime;
@@ -598,6 +619,11 @@ namespace PIBrowser
 
         public TrendChart()
         {
+            fGraph = new ZedGraphControl();
+            fGraph.IsShowPointValues = true;
+            fGraph.Dock = DockStyle.Fill;
+            Controls.Add(fGraph);
+
             fTrends = new List<TrendObj>();
             fAroundZoom = false;
             fBegDateTime = DateTime.FromOADate(0.0);
@@ -645,7 +671,47 @@ namespace PIBrowser
 
         public void Clear()
         {
-            fTrends.Clear();
+            GraphPane gPane = fGraph.GraphPane;
+            gPane.Title.Text = "";
+            gPane.XAxis.Title.Text = "";
+            gPane.YAxis.Title.Text = "";
+            gPane.CurveList.Clear();
+
+            fGraph.AxisChange();
+            fGraph.Invalidate();
+
+            //fTrends.Clear();
+        }
+
+        public void PrepareArray(string title, string xAxis, string yAxis, TrendObj trendObj)
+        {
+            List<TrendPoint> vals = trendObj.Series.List;
+
+            GraphPane gPane = fGraph.GraphPane;
+            try
+            {
+                gPane.Title.Text = title;
+                gPane.XAxis.Title.Text = xAxis;
+                gPane.YAxis.Title.Text = yAxis;
+
+                gPane.XAxis.Type = AxisType.Date;
+                PointPairList ppList = new PointPairList();
+
+                int num = vals.Count;
+                for (int i = 0; i < num; i++)
+                {
+                    TrendPoint item = vals[i];
+                    ppList.Add(item.pTime, item.pValue);
+                }
+                ppList.Sort();
+
+                gPane.AddCurve(trendObj.Name, ppList, trendObj.Color, SymbolType.None);
+            }
+            finally
+            {
+                fGraph.AxisChange();
+                fGraph.Invalidate();
+            }
         }
 
         public void DataUpdated()
@@ -654,8 +720,12 @@ namespace PIBrowser
             base.Invalidate();
         }
 
-        public void DrawTrend(int aIndex, ref double aMin, ref double aMax)
+        public void DrawTrend(int index, ref double aMin, ref double aMax)
         {
+            TrendObj trendObj = this[index];
+            if (!string.IsNullOrEmpty(trendObj.Tag)) {
+                PrepareArray("", "", "", trendObj);
+            }
         }
 
         public void EndUpdate()

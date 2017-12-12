@@ -1,4 +1,22 @@
-﻿using System;
+﻿/*
+ *  "PIBrowser", the PISystem tags browser.
+ *  Copyright (C) 2007-2017 by Sergey V. Zhdanovskih.
+ *
+ *  This program is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+using System;
 using System.Windows.Forms;
 using GKCommon;
 using PIBrowser.Filters;
@@ -123,7 +141,7 @@ namespace PIBrowser
             chkCrossSight.Checked = fChart.CrossRuler;
             base.ActiveControl = TreeView1;
             if (TreeView1.Nodes[0].Nodes.Count > 0) {
-                TreeView1.SelectedNode = TreeView1.Nodes[1];
+                TreeView1.SelectedNode = TreeView1.Nodes[0].Nodes[0];
             }
         }
 
@@ -150,15 +168,15 @@ namespace PIBrowser
 
             Panel1.Text = "< " + trendObj.Name + " >";
             if (trendObj.AutoScaleMin) {
-                txtMin.Text = string.Format("%1.2f", trendObj.Series.ChartMin);
+                txtMin.Text = string.Format("{0:0.00}", trendObj.Series.ChartMin);
             } else {
-                txtMin.Text = string.Format("%1.2f", trendObj.Min);
+                txtMin.Text = string.Format("{0:0.00}", trendObj.Min);
             }
             chkMin.Checked = trendObj.AutoScaleMin;
             if (trendObj.AutoScaleMax) {
-                txtMax.Text = string.Format("%1.2f", trendObj.Series.ChartMax);
+                txtMax.Text = string.Format("{0:0.00}", trendObj.Series.ChartMax);
             } else {
-                txtMax.Text = string.Format("%1.2f", trendObj.Max);
+                txtMax.Text = string.Format("{0:0.00}", trendObj.Max);
             }
             chkMax.Checked = trendObj.AutoScaleMax;
             chkVisible.Checked = trendObj.Visible;

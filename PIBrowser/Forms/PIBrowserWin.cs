@@ -1,4 +1,22 @@
-﻿using System;
+﻿/*
+ *  "PIBrowser", the PISystem tags browser.
+ *  Copyright (C) 2007-2017 by Sergey V. Zhdanovskih.
+ *
+ *  This program is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+using System;
 using System.Drawing;
 using System.IO;
 using System.Reflection;
@@ -10,6 +28,8 @@ namespace PIBrowser
 {
     public partial class PIBrowserWin : Form
     {
+        public const int MAX_TRENDS = 20;
+
         private string fCaptionTagList;
         private DateTime fCurrentDate;
         private string fCurTagListFile;
@@ -50,6 +70,7 @@ namespace PIBrowser
             for (int i = 0; i < PIBUtils.PeriodKinds.Length; i++) {
                 cmbPeriod.Items.Add(PIBUtils.PeriodKinds[i]);
             }
+            cmbPeriod.SelectedIndex = 1;
 
             TrendChart1 = new TrendChart();
             TrendChart1.Left = 270;
@@ -65,8 +86,8 @@ namespace PIBrowser
 
             splMoved(sender, null);
             InitTrends();
-            DateTimePicker1.Value = DateTime.Now;
             fSession = -1;
+            DateTimePicker1.Value = DateTime.Now;
             DateTimePicker1Change(DateTimePicker1, null);
             Timer1.Enabled = true;
 
@@ -112,7 +133,7 @@ namespace PIBrowser
                 DateTimePicker1.Value = DateTime.Now;
             }
 
-            PeriodKind tPeriodKind = (PeriodKind)cmbPeriod.SelectedIndex;
+            PeriodKind periodKind = (PeriodKind)cmbPeriod.SelectedIndex;
 
             if (object.Equals(sender, DateTimePicker1)) {
                 if (fCurrentDate.Date == DateTimePicker1.Value.Date) {
@@ -120,20 +141,20 @@ namespace PIBrowser
                 }
                 fCurrentDate = DateTimePicker1.Value.Date;
             } else if (object.Equals(sender, tbDayPrior)) {
-                if (tPeriodKind == PeriodKind.pkDay) {
-                    fCurrentDate.AddDays(-1);
-                } else if (tPeriodKind == PeriodKind.pkWeek) {
-                    fCurrentDate.AddDays(-7);
+                if (periodKind == PeriodKind.pkDay) {
+                    fCurrentDate = fCurrentDate.AddDays(-1);
+                } else if (periodKind == PeriodKind.pkWeek) {
+                    fCurrentDate = fCurrentDate.AddDays(-7);
                 } else {
                     MoveDateTime(PeriodMove.pmPrior);
                     txtSession.Text = Convert.ToString(fSession);
                 }
                 DateTimePicker1.Value = fCurrentDate;
             } else if (object.Equals(sender, tbDayNext)) {
-                if (tPeriodKind == PeriodKind.pkDay) {
-                    fCurrentDate.AddDays(+1);
-                } else if (tPeriodKind == PeriodKind.pkWeek) {
-                    fCurrentDate.AddDays(+7);
+                if (periodKind == PeriodKind.pkDay) {
+                    fCurrentDate = fCurrentDate.AddDays(+1);
+                } else if (periodKind == PeriodKind.pkWeek) {
+                    fCurrentDate = fCurrentDate.AddDays(+7);
                 } else {
                     MoveDateTime(PeriodMove.pmNext);
                     txtSession.Text = Convert.ToString(fSession);
@@ -179,7 +200,7 @@ namespace PIBrowser
 
         public void splMoved(object sender, SplitterEventArgs e)
         {
-            //cbFind.Width = tbfind.Width - pfind.Width - s1.Width;
+            cmbTagSearch.Width = tbSearch.Width - panSearch.Width - s1.Width;
             FormResize(null, null);
         }
 
@@ -197,6 +218,7 @@ namespace PIBrowser
 
         public void tbScreenshotClick(object sender, EventArgs e)
         {
+            //SavePicD.Filter = "Bitmaps (*.bmp)|*.bmp|Jpeg (*.jpg)|*.jpg|All Files|*.*"
         }
 
         public void cmbTagSearch_KeyDown(object sender, KeyEventArgs e)
@@ -215,7 +237,7 @@ namespace PIBrowser
                     IniFile iniFile = new IniFile(PIBUtils.GetIniFile());
                     try {
                         for (int i = 0; i < cmbTagSearch.Items.Count; i++) {
-                            if (cmbTagSearch.Items[i] != "") {
+                            if (!string.IsNullOrEmpty(cmbTagSearch.Items[i].ToString())) {
                                 iniFile.WriteString("Common", "PreFind" + Convert.ToString(i), cmbTagSearch.Items[i].ToString());
                             }
                         }
@@ -256,10 +278,10 @@ namespace PIBrowser
 
         public void LVTagsDblClick(object sender, EventArgs e)
         {
-            var item = PIBUtils.GetSelectedItem(lvTags);
+            /*var item = PIBUtils.GetSelectedItem(lvTags);
             if (item != null) {
                 cmbTagSearch.Text = item.Text;
-            }
+            }*/
         }
 
         public void cmbTagSearch_TextChanged(object sender, EventArgs e)
@@ -275,11 +297,11 @@ namespace PIBrowser
             LVTagsClick(sender, null);
         }
 
-        public void Form_Closed(object sender, FormClosedEventArgs e)
+        public void Form_Closed(object sender, EventArgs e)
         {
+            Timer1.Enabled = false;
             fmConnection.Close();
             CheckModifyTagList();
-            Timer1.Enabled = false;
             DoneTrends();
         }
 
@@ -290,6 +312,11 @@ namespace PIBrowser
 
         public void LVTagsChange(object sender, EventArgs e)
         {
+            // moved
+        }
+
+        public void LVTagsItemChecked(object sender, ItemCheckedEventArgs e)
+        {
             var item = PIBUtils.GetSelectedItem(lvTags);
             if (item != null && item.Checked) {
                 int used = 0;
@@ -298,10 +325,11 @@ namespace PIBrowser
                         used++;
                     }
                 }
-                if (used > 20) {
+                if (used > MAX_TRENDS) {
                     item.Checked = false;
                 }
             }
+            SelectTags();
         }
 
         public void pfindClick(object sender, EventArgs e)
@@ -309,7 +337,7 @@ namespace PIBrowser
             SelectTag(cmbTagSearch.Text);
         }
 
-        public void LVTagsClick(object sender, EventArgs e)
+        private void SelectTags()
         {
             try {
                 for (int i = 0; i < lvTags.Items.Count; i++) {
@@ -334,10 +362,18 @@ namespace PIBrowser
             }
         }
 
+        public void LVTagsClick(object sender, EventArgs e)
+        {
+            //SelectTags();
+        }
+
         public void tbTLLoadClick(object sender, EventArgs e)
         {
             CheckModifyTagList();
+
+            odTagList.Filter = "Файл списка тегов (*.lst)|*.lst|Все файлы|*.*";
             odTagList.InitialDirectory = PIBUtils.GetAppPath();
+
             if (odTagList.ShowDialog() == DialogResult.OK) {
                 for (int i = 0; i < lvTags.Items.Count; i++) {
                     lvTags.Items[i].Checked = false;
@@ -346,7 +382,7 @@ namespace PIBrowser
                 LoadListTrend(odTagList.FileName);
 
                 fCurTagListFile = odTagList.FileName;
-                if (fCurTagListFile != "") {
+                if (!string.IsNullOrEmpty(fCurTagListFile)) {
                     CaptionTagList = "Текущий Тег-список: " + Path.GetFileName(fCurTagListFile);
                 } else {
                     CaptionTagList = "Нет загруженных тег-списков";
@@ -357,10 +393,12 @@ namespace PIBrowser
 
         public void tbTLSaveClick(object sender, EventArgs e)
         {
+            sdTagList.Filter = "Файл списка тегов (*.lst)|*.lst|Все файлы|*.*";
             sdTagList.InitialDirectory = PIBUtils.GetAppPath();
+
             if (sdTagList.ShowDialog() == DialogResult.OK) {
                 using (IniFile iniFile = new IniFile(sdTagList.FileName)) {
-                    for (int i = 1; i <= 20; i++)
+                    for (int i = 1; i <= MAX_TRENDS; i++)
                     {
                         TrendObj trendObj = TrendChart1[i - 1];
                         iniFile.WriteString("Trends", "Trend" + Convert.ToString(i), trendObj.Tag);
@@ -385,11 +423,11 @@ namespace PIBrowser
         {
             StringList strList = new StringList();
             try {
-                for (int i = 0; i < 20; i++)
+                for (int i = 0; i < MAX_TRENDS; i++)
                 {
                     TrendObj trendObj = TrendChart1[i];
 
-                    if (trendObj.Tag != "") {
+                    if (!string.IsNullOrEmpty(trendObj.Tag)) {
                         strList.Add(string.Concat(new string[] {
                                                       trendObj.Tag,
                                                       ": ",
@@ -414,7 +452,7 @@ namespace PIBrowser
             }
         }
 
-        public void tbFilterClick(object sender, EventArgs e)
+        public void tbOptionsClick(object sender, EventArgs e)
         {
             TrendChart1.ShowOptions();
         }
@@ -471,7 +509,7 @@ namespace PIBrowser
             RefreshNavigation();
 
             if (loadKind == DataLoadKind.dlkByStart) {
-                for (int i = 0; i < 20; i++)
+                for (int i = 0; i < MAX_TRENDS; i++)
                 {
                     TrendChart1[i].Clear();
                 }
@@ -495,36 +533,39 @@ namespace PIBrowser
             TrendChart1.Legend = true;
 
             TrendChart1.BeginUpdate();
-            for (int k = 0; k < 20; k++)
+            TrendChart1.Clear();
+            for (int k = 0; k < MAX_TRENDS; k++)
             {
                 int num2 = k / 4;
                 int num3 = k % 4;
 
                 TrendObj trendObj = TrendChart1[k];
+                //if (trendObj == null) continue;
+
                 switch (k) {
                     case 0:
-                        trendObj.Color = Color.FromArgb(255);
+                        trendObj.Color = Color.Red;
                         break;
                     case 1:
-                        trendObj.Color = Color.FromArgb(32768);
+                        trendObj.Color = Color.Green;
                         break;
                     case 2:
-                        trendObj.Color = Color.FromArgb(0);
+                        trendObj.Color = Color.Black;
                         break;
                     case 3:
-                        trendObj.Color = Color.FromArgb(16711680);
+                        trendObj.Color = Color.Blue;
                         break;
                     case 4:
-                        trendObj.Color = Color.FromArgb(16711935);
+                        trendObj.Color = Color.Fuchsia;
                         break;
                     case 5:
-                        trendObj.Color = Color.FromArgb(8388608);
+                        trendObj.Color = Color.Navy;
                         break;
                     case 6:
-                        trendObj.Color = Color.FromArgb(32896);
+                        trendObj.Color = Color.Olive;
                         break;
                     case 7:
-                        trendObj.Color = Color.FromArgb(8388736);
+                        trendObj.Color = Color.Purple;
                         break;
                 }
 
@@ -532,7 +573,7 @@ namespace PIBrowser
                 trendObj.ScaleIndex = num3 + 1;
                 trendObj.PosY = num2 + 1;
 
-                if (trendObj.Tag != "") {
+                if (!string.IsNullOrEmpty(trendObj.Tag)) {
                     float zero, span;
                     PIBUtils.piLoadTrend(trendObj.Series, trendObj.Tag, (LoadFlags)0, aBeg, aEnd, out zero, out span);
                     double num6 = 0.0;
@@ -571,6 +612,9 @@ namespace PIBrowser
                     AnalitikMAX[k] = 0.0;
                     AnalitikMIN[k] = 0.0;
                 }
+
+                double d1 = 0, d2 = 0;
+                TrendChart1.DrawTrend(k, ref d1, ref d2);
             }
 
             TrendChart1.FiltersApply();
@@ -597,7 +641,7 @@ namespace PIBrowser
 
         private void InitTrends()
         {
-            for (int i = 0; i < 20; i++) {
+            for (int i = 0; i < MAX_TRENDS; i++) {
                 TrendObj trendObj = TrendChart1.AddTrend();
                 trendObj.GridShow = true;
                 trendObj.PosX = 1;
@@ -612,6 +656,7 @@ namespace PIBrowser
 
         private void UpdateTagsList()
         {
+            this.lvTags.ItemChecked -= new System.Windows.Forms.ItemCheckedEventHandler(this.LVTagsItemChecked);
             lvTags.BeginUpdate();
             lvTags.Items.Clear();
             try {
@@ -641,6 +686,7 @@ namespace PIBrowser
                 }
             } finally {
                 lvTags.EndUpdate();
+                this.lvTags.ItemChecked += new System.Windows.Forms.ItemCheckedEventHandler(this.LVTagsItemChecked);
                 UpdateStatusBar();
             }
         }
@@ -653,14 +699,14 @@ namespace PIBrowser
 
         private void CheckModifyTagList()
         {
-            if (fCurTagListFile != "" && fModified) {
+            if (!string.IsNullOrEmpty(fCurTagListFile) && fModified) {
                 using (IniFile iniFile = new IniFile(fCurTagListFile)) {
                     if (PIBUtils.ShowQuestionYN(string.Concat(new string[] {
                                                                   "Тег-список: \"",
                                                                   Path.GetFileName(fCurTagListFile),
                                                                   "\" изменен. Сохранить изменения?"
                                                               }))) {
-                        for (int i = 1; i <= 20; i++) {
+                        for (int i = 1; i <= MAX_TRENDS; i++) {
                             TrendObj trendObj = TrendChart1[i - 1];
                             iniFile.WriteString("Trends", "Trend" + Convert.ToString(i), trendObj.Tag);
                             iniFile.WriteInteger("Trends", "PostAction" + Convert.ToString(i), (int)trendObj.PostAction);
@@ -690,7 +736,7 @@ namespace PIBrowser
 
         private void ClearTagsList()
         {
-            for (int i = 0; i < 20; i++) {
+            for (int i = 0; i < MAX_TRENDS; i++) {
                 TrendChart1[i].Tag = "";
             }
         }
@@ -706,7 +752,7 @@ namespace PIBrowser
 
         private void SetTagByItem(TrendObj trendObj, ListViewItem listItem)
         {
-            trendObj.Name = listItem.SubItems[0].ToString();
+            trendObj.Name = listItem.SubItems[0].Text;
             trendObj.Tag = listItem.Text;
             trendObj.Init();
             trendObj.LoadSettings();
@@ -766,14 +812,14 @@ namespace PIBrowser
         public void LoadListTrend(string trendListFile)
         {
             using (IniFile iniFile = new IniFile(trendListFile)) {
-                for (int k = 1; k <= 20; k++) {
+                for (int k = 1; k <= MAX_TRENDS; k++) {
                     TrendChart1[k - 1].Tag = iniFile.ReadString("Trends", "Trend" + Convert.ToString(k), "");
                 }
 
-                for (int i = 0; i < 20; i++) {
+                for (int i = 0; i < MAX_TRENDS; i++) {
                     TrendObj trendObj = TrendChart1[i];
 
-                    if (trendObj.Tag != "") {
+                    if (!string.IsNullOrEmpty(trendObj.Tag)) {
                         ListViewItem listItem = PIBUtils.FindCaption(lvTags, trendObj.Tag);
                         if (listItem != null) {
                             listItem.Checked = true;
@@ -812,12 +858,12 @@ namespace PIBrowser
                         fSession = 2;
                     } else if (fSession == 2) {
                         fSession = 1;
-                        fCurrentDate.AddDays(+1);
+                        fCurrentDate = fCurrentDate.AddDays(+1);
                     }
                 }
             } else if (fSession == 1) {
                 fSession = 2;
-                fCurrentDate.AddDays(-1);
+                fCurrentDate = fCurrentDate.AddDays(-1);
             } else if (fSession == 2) {
                 fSession = 1;
             }
@@ -835,12 +881,6 @@ namespace PIBrowser
             tbPrint.Image = PIBUtils.LoadResourceImage(assembly, "PIBrowser.Resources.print.gif");
             tbTLLoad.Image = PIBUtils.LoadResourceImage(assembly, "PIBrowser.Resources.load.gif");
             tbTLSave.Image = PIBUtils.LoadResourceImage(assembly, "PIBrowser.Resources.save.gif");
-
-            /*
-                SavePicD.Filter = "Bitmaps (*.bmp)|*.bmp|Jpeg (*.jpg)|*.jpg|All Files|*.*"
-                sdTagList.Filter = "Файл списка тегов (*.lst)|*.lst|Все файлы|*.*"
-                odTagList.Filter = "Файл списка тегов (*.lst)|*.lst|Все файлы|*.*"
-             */
         }
     }
 }

@@ -6,10 +6,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PIBrowser", "PIBrowser\PIBr
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PIBrowserTests", "PIBrowserTests\PIBrowserTests.csproj", "{B45CA2DF-3F5E-4765-AEBF-4C2C0D4DAF04}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BSLib", "..\BSLib\BSLib\BSLib.csproj", "{F657A1B7-C834-420A-B302-88460E3F6283}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BSLib.Controls", "..\BSLib\BSLib.Controls\BSLib.Controls.csproj", "{3180214E-8BFD-4B0B-AD9B-E298FAE67CCB}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -24,13 +20,5 @@ Global
 		{B45CA2DF-3F5E-4765-AEBF-4C2C0D4DAF04}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B45CA2DF-3F5E-4765-AEBF-4C2C0D4DAF04}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B45CA2DF-3F5E-4765-AEBF-4C2C0D4DAF04}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F657A1B7-C834-420A-B302-88460E3F6283}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F657A1B7-C834-420A-B302-88460E3F6283}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F657A1B7-C834-420A-B302-88460E3F6283}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F657A1B7-C834-420A-B302-88460E3F6283}.Release|Any CPU.Build.0 = Release|Any CPU
-		{3180214E-8BFD-4B0B-AD9B-E298FAE67CCB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{3180214E-8BFD-4B0B-AD9B-E298FAE67CCB}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{3180214E-8BFD-4B0B-AD9B-E298FAE67CCB}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{3180214E-8BFD-4B0B-AD9B-E298FAE67CCB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

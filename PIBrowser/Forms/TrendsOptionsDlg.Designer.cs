@@ -111,7 +111,7 @@
             treeNode1.Name = "Node0";
             treeNode1.Text = "Trends";
             this.TreeView1.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
-            treeNode1});
+                                    treeNode1});
             this.TreeView1.Size = new System.Drawing.Size(240, 371);
             this.TreeView1.TabIndex = 0;
             this.TreeView1.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.TreeView1_AfterSelect);
@@ -155,7 +155,7 @@
             // chkMin
             // 
             this.chkMin.AutoSize = true;
-            this.chkMin.Location = new System.Drawing.Point(16, 40);
+            this.chkMin.Location = new System.Drawing.Point(16, 34);
             this.chkMin.Name = "chkMin";
             this.chkMin.Size = new System.Drawing.Size(50, 21);
             this.chkMin.TabIndex = 1;
@@ -164,7 +164,7 @@
             // chkMax
             // 
             this.chkMax.AutoSize = true;
-            this.chkMax.Location = new System.Drawing.Point(16, 72);
+            this.chkMax.Location = new System.Drawing.Point(16, 66);
             this.chkMax.Name = "chkMax";
             this.chkMax.Size = new System.Drawing.Size(55, 21);
             this.chkMax.TabIndex = 2;
@@ -210,7 +210,7 @@
             // chkShowSource
             // 
             this.chkShowSource.AutoSize = true;
-            this.chkShowSource.Location = new System.Drawing.Point(8, 104);
+            this.chkShowSource.Location = new System.Drawing.Point(8, 110);
             this.chkShowSource.Name = "chkShowSource";
             this.chkShowSource.Size = new System.Drawing.Size(107, 21);
             this.chkShowSource.TabIndex = 0;
@@ -266,7 +266,7 @@
             // lblBandWidth
             // 
             this.lblBandWidth.AutoSize = true;
-            this.lblBandWidth.Location = new System.Drawing.Point(208, 40);
+            this.lblBandWidth.Location = new System.Drawing.Point(208, 35);
             this.lblBandWidth.Name = "lblBandWidth";
             this.lblBandWidth.Size = new System.Drawing.Size(76, 17);
             this.lblBandWidth.TabIndex = 0;
@@ -275,7 +275,7 @@
             // lblSubstractionNoiseDegree
             // 
             this.lblSubstractionNoiseDegree.AutoSize = true;
-            this.lblSubstractionNoiseDegree.Location = new System.Drawing.Point(208, 128);
+            this.lblSubstractionNoiseDegree.Location = new System.Drawing.Point(208, 123);
             this.lblSubstractionNoiseDegree.Name = "lblSubstractionNoiseDegree";
             this.lblSubstractionNoiseDegree.Size = new System.Drawing.Size(161, 17);
             this.lblSubstractionNoiseDegree.TabIndex = 1;
@@ -284,7 +284,7 @@
             // lblSuppressionDegree
             // 
             this.lblSuppressionDegree.AutoSize = true;
-            this.lblSuppressionDegree.Location = new System.Drawing.Point(208, 96);
+            this.lblSuppressionDegree.Location = new System.Drawing.Point(208, 91);
             this.lblSuppressionDegree.Name = "lblSuppressionDegree";
             this.lblSuppressionDegree.Size = new System.Drawing.Size(126, 17);
             this.lblSuppressionDegree.TabIndex = 2;
@@ -391,7 +391,6 @@
             this.GroupBox3.PerformLayout();
             this.tsOther.ResumeLayout(false);
             this.ResumeLayout(false);
-
         }
     }
 }

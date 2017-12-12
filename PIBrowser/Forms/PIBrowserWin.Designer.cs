@@ -1,52 +1,47 @@
-﻿using System;
-using System.Windows.Forms;
-
-namespace PIBrowser
+﻿namespace PIBrowser
 {
     partial class PIBrowserWin
     {
         private System.ComponentModel.IContainer components = null;
-        public Timer Timer1;
-        private PrintDialog PrinterSetupDialog1;
-        private SaveFileDialog SaveD;
-        private Splitter spl;
-        private StatusBar stb;
-        private Panel ptaglist;
-        private ListView lvTags;
-        private ToolStrip tbSearch;
-        private ToolStripLabel panSearch;
-        private ToolStripSeparator s1;
-        private ToolStrip tbmain;
-        private ToolStripButton tbs1;
-        private ToolStripButton tbDayPrior;
-        private ToolStripLabel Panel3;
-        private DateTimePicker DateTimePicker1;
-        private ToolStripLabel Panel4;
-        private ToolStripTextBox txtSession;
-        private ToolStripLabel Panel5;
-        private ToolStripComboBox cmbPeriod;
-        private ToolStripButton tbDayNext;
-        private ToolStripSeparator tbs2;
-        private ToolStripSeparator tbs3;
-        private ToolStripButton tbPrint;
-        private ToolStripButton tbOptions;
-        private ToolStripSeparator tbs7;
-        private ToolStripButton tbAbout;
-        private ToolStripButton tbScreenshot;
-        private SaveFileDialog SavePicD;
-        private ToolStripComboBox cmbTagSearch;
-        private ToolStripSeparator tbs5;
-        private ToolStripSeparator tbs4;
-        private SaveFileDialog sdTagList;
-        private ToolStripButton tbTLLoad;
-        private ToolStripButton tbTLSave;
-        private ToolStripLabel Panel1;
-        private ToolStripSeparator tbs8;
-        private ToolStripButton tbAnalysis;
-        private ToolStripSeparator tbs6;
-        private ToolStripButton tbFilter;
-        private ListView ListView1;
-        private OpenFileDialog odTagList;
+        public System.Windows.Forms.Timer Timer1;
+        private System.Windows.Forms.PrintDialog PrinterSetupDialog1;
+        private System.Windows.Forms.SaveFileDialog SaveD;
+        private System.Windows.Forms.Splitter spl;
+        private System.Windows.Forms.StatusBar stb;
+        private System.Windows.Forms.Panel ptaglist;
+        private System.Windows.Forms.ListView lvTags;
+        private System.Windows.Forms.ToolStrip tbSearch;
+        private System.Windows.Forms.ToolStripLabel panSearch;
+        private System.Windows.Forms.ToolStripSeparator s1;
+        private System.Windows.Forms.ToolStrip tbmain;
+        private System.Windows.Forms.ToolStripButton tbDayPrior;
+        private System.Windows.Forms.ToolStripLabel Panel3;
+        private System.Windows.Forms.DateTimePicker DateTimePicker1;
+        private System.Windows.Forms.ToolStripLabel Panel4;
+        private System.Windows.Forms.ToolStripTextBox txtSession;
+        private System.Windows.Forms.ToolStripLabel Panel5;
+        private System.Windows.Forms.ToolStripComboBox cmbPeriod;
+        private System.Windows.Forms.ToolStripButton tbDayNext;
+        private System.Windows.Forms.ToolStripSeparator tbs2;
+        private System.Windows.Forms.ToolStripSeparator tbs3;
+        private System.Windows.Forms.ToolStripButton tbPrint;
+        private System.Windows.Forms.ToolStripButton tbOptions;
+        private System.Windows.Forms.ToolStripSeparator tbs7;
+        private System.Windows.Forms.ToolStripButton tbAbout;
+        private System.Windows.Forms.ToolStripButton tbScreenshot;
+        private System.Windows.Forms.SaveFileDialog SavePicD;
+        private System.Windows.Forms.ToolStripComboBox cmbTagSearch;
+        private System.Windows.Forms.ToolStripSeparator tbs5;
+        private System.Windows.Forms.ToolStripSeparator tbs4;
+        private System.Windows.Forms.SaveFileDialog sdTagList;
+        private System.Windows.Forms.ToolStripButton tbTLLoad;
+        private System.Windows.Forms.ToolStripButton tbTLSave;
+        private System.Windows.Forms.ToolStripLabel Panel1;
+        private System.Windows.Forms.ToolStripSeparator tbs8;
+        private System.Windows.Forms.ToolStripButton tbAnalysis;
+        private System.Windows.Forms.ToolStripSeparator tbs6;
+        private System.Windows.Forms.ListView ListView1;
+        private System.Windows.Forms.OpenFileDialog odTagList;
         private System.Windows.Forms.StatusBarPanel sbpan1;
         private System.Windows.Forms.ColumnHeader columnHeader2;
         private System.Windows.Forms.ColumnHeader columnHeader1;
@@ -77,7 +72,6 @@ namespace PIBrowser
             this.panSearch = new System.Windows.Forms.ToolStripLabel();
             this.cmbTagSearch = new System.Windows.Forms.ToolStripComboBox();
             this.tbmain = new System.Windows.Forms.ToolStrip();
-            this.tbs1 = new System.Windows.Forms.ToolStripButton();
             this.tbDayPrior = new System.Windows.Forms.ToolStripButton();
             this.Panel4 = new System.Windows.Forms.ToolStripLabel();
             this.DateTimePicker1 = new System.Windows.Forms.DateTimePicker();
@@ -97,7 +91,6 @@ namespace PIBrowser
             this.tbPrint = new System.Windows.Forms.ToolStripButton();
             this.tbs6 = new System.Windows.Forms.ToolStripSeparator();
             this.tbOptions = new System.Windows.Forms.ToolStripButton();
-            this.tbFilter = new System.Windows.Forms.ToolStripButton();
             this.tbs7 = new System.Windows.Forms.ToolStripSeparator();
             this.tbAbout = new System.Windows.Forms.ToolStripButton();
             this.tbs8 = new System.Windows.Forms.ToolStripSeparator();
@@ -171,6 +164,7 @@ namespace PIBrowser
             this.lvTags.SelectedIndexChanged += new System.EventHandler(this.LVTagsChange);
             this.lvTags.Click += new System.EventHandler(this.LVTagsClick);
             this.lvTags.DoubleClick += new System.EventHandler(this.LVTagsDblClick);
+            this.lvTags.ItemChecked += new System.Windows.Forms.ItemCheckedEventHandler(this.LVTagsItemChecked);
             // 
             // tbSearch
             // 
@@ -208,7 +202,6 @@ namespace PIBrowser
             // tbmain
             // 
             this.tbmain.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-                                    this.tbs1,
                                     this.tbDayPrior,
                                     this.Panel4,
                                     new System.Windows.Forms.ToolStripControlHost(this.DateTimePicker1),
@@ -228,7 +221,6 @@ namespace PIBrowser
                                     this.tbPrint,
                                     this.tbs6,
                                     this.tbOptions,
-                                    this.tbFilter,
                                     this.tbs7,
                                     this.tbAbout,
                                     this.tbs8,
@@ -238,14 +230,10 @@ namespace PIBrowser
             this.tbmain.Size = new System.Drawing.Size(1272, 27);
             this.tbmain.TabIndex = 3;
             // 
-            // tbs1
-            // 
-            this.tbs1.Name = "tbs1";
-            this.tbs1.Size = new System.Drawing.Size(91, 24);
-            this.tbs1.Text = "ToolButton1";
-            // 
             // tbDayPrior
             // 
+            this.tbDayPrior.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.ImageAndText;
+            this.tbDayPrior.Text = "<<";
             this.tbDayPrior.Name = "tbDayPrior";
             this.tbDayPrior.Size = new System.Drawing.Size(23, 24);
             this.tbDayPrior.Click += new System.EventHandler(this.tbDayPriorClick);
@@ -254,6 +242,7 @@ namespace PIBrowser
             // 
             this.Panel4.Name = "Panel4";
             this.Panel4.Size = new System.Drawing.Size(0, 24);
+            this.Panel4.Text = "Date:";
             // 
             // DateTimePicker1
             // 
@@ -267,6 +256,7 @@ namespace PIBrowser
             // 
             this.Panel5.Name = "Panel5";
             this.Panel5.Size = new System.Drawing.Size(0, 24);
+            this.Panel5.Text = "Session:";
             // 
             // eSession
             // 
@@ -282,9 +272,10 @@ namespace PIBrowser
             // 
             // tbDayNext
             // 
+            this.tbDayNext.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.ImageAndText;
+            this.tbDayNext.Text = ">>";
             this.tbDayNext.Name = "tbDayNext";
             this.tbDayNext.Size = new System.Drawing.Size(82, 24);
-            this.tbDayNext.Text = "tbDayNext";
             this.tbDayNext.Click += new System.EventHandler(this.tbDayNextClick);
             // 
             // tbs3
@@ -296,12 +287,13 @@ namespace PIBrowser
             // 
             this.Panel3.Name = "Panel3";
             this.Panel3.Size = new System.Drawing.Size(0, 24);
+            this.Panel3.Text = "Period:";
             // 
             // cmbPeriod
             // 
-            this.cmbPeriod.DropDownStyle = ComboBoxStyle.DropDownList;
+            this.cmbPeriod.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbPeriod.Name = "cmbPeriod";
-            this.cmbPeriod.Size = new System.Drawing.Size(121, 27);
+            this.cmbPeriod.Size = new System.Drawing.Size(60, 27);
             // 
             // tbs4
             // 
@@ -334,7 +326,7 @@ namespace PIBrowser
             // 
             this.tbScreenshot.Name = "tbScreenshot";
             this.tbScreenshot.Size = new System.Drawing.Size(97, 24);
-            this.tbScreenshot.Text = "tbScreenshot";
+            this.tbScreenshot.Text = "Screenshot";
             this.tbScreenshot.Click += new System.EventHandler(this.tbScreenshotClick);
             // 
             // tbPrint
@@ -353,13 +345,7 @@ namespace PIBrowser
             this.tbOptions.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
             this.tbOptions.Name = "tbOptions";
             this.tbOptions.Size = new System.Drawing.Size(23, 24);
-            // 
-            // tbFilter
-            // 
-            this.tbFilter.Name = "tbFilter";
-            this.tbFilter.Size = new System.Drawing.Size(55, 24);
-            this.tbFilter.Text = "tbFilter";
-            this.tbFilter.Click += new System.EventHandler(this.tbFilterClick);
+            this.tbOptions.Click += new System.EventHandler(this.tbOptionsClick);
             // 
             // tbs7
             // 
@@ -418,7 +404,8 @@ namespace PIBrowser
             this.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.Name = "TfmPIBrowser";
             this.Text = "PI Browser";
-            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Form_Closed);
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.Closed += new System.EventHandler(this.Form_Closed);
             this.Load += new System.EventHandler(this.Form_Load);
             this.Resize += new System.EventHandler(this.FormResize);
             ((System.ComponentModel.ISupportInitialize)(this.sbpan1)).EndInit();

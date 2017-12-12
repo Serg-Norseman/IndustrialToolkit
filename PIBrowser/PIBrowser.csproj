@@ -46,6 +46,12 @@
     <DefineConstants>TRACE</DefineConstants>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="BSLib">
+      <HintPath>libs\BSLib.dll</HintPath>
+    </Reference>
+    <Reference Include="BSLib.Controls">
+      <HintPath>libs\BSLib.Controls.dll</HintPath>
+    </Reference>
     <Reference Include="piapi32">
       <HintPath>libs\x86\piapi32.dll</HintPath>
     </Reference>
@@ -82,8 +88,6 @@
     <Compile Include="Filters\SplineFilter.cs" />
     <Compile Include="PIBUtils.cs" />
     <Compile Include="Program.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ZGraphControl.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
@@ -101,16 +105,6 @@
     <Folder Include="Filters" />
     <Folder Include="Forms" />
     <Folder Include="Resources" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\BSLib\BSLib.Controls\BSLib.Controls.csproj">
-      <Project>{3180214e-8bfd-4b0b-ad9b-e298fae67ccb}</Project>
-      <Name>BSLib.Controls</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\BSLib\BSLib\BSLib.csproj">
-      <Project>{f657a1b7-c834-420a-b302-88460e3f6283}</Project>
-      <Name>BSLib</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

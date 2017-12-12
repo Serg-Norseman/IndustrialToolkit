@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using BSLib;
+using BSLib.Math;
 using NUnit.Framework;
 using PIBrowser;
 using PIBrowser.Filters;
