@@ -696,12 +696,14 @@ namespace PIBrowser
 
                 gPane.XAxis.Type = AxisType.Date;
                 PointPairList ppList = new PointPairList();
+                bool filtered = (trendObj.Series.PostAction != PostAction.paNone);
 
                 int num = vals.Count;
                 for (int i = 0; i < num; i++)
                 {
                     TrendPoint item = vals[i];
-                    ppList.Add(item.pTime, item.pValue);
+                    double value = (!filtered) ? item.pValue : item.pFilteredValue;
+                    ppList.Add(item.pTime, value);
                 }
                 ppList.Sort();
 
@@ -717,14 +719,24 @@ namespace PIBrowser
         public void DataUpdated()
         {
             FiltersApply();
+            DrawTrends();
             base.Invalidate();
         }
 
-        public void DrawTrend(int index, ref double aMin, ref double aMax)
+        public void DrawTrends()
         {
-            TrendObj trendObj = this[index];
-            if (!string.IsNullOrEmpty(trendObj.Tag)) {
-                PrepareArray("", "", "", trendObj);
+            Clear();
+            for (int i = 0; i < fTrends.Count; i++) {
+                TrendObj trendObj = fTrends[i];
+                if (fTrends[i].Visible) {
+                    try {
+                        if (!string.IsNullOrEmpty(trendObj.Tag)) {
+                            PrepareArray("", "", "", trendObj);
+                        }
+                    } catch (Exception ex) {
+                        PIBUtils.ShowMessage("Error type #8: " + ex.Message);
+                    }
+                }
             }
         }
 

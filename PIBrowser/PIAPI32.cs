@@ -174,9 +174,24 @@ namespace PIBrowser
                                                   out int[] istats, string calcstr);
 
         [DllImport("piapi32.dll")]
-        public static extern int piar_compvalues(int pt, ref int count, ref int[] times, out float[] rvals,
-                                                 out int[] istats, int rev);
+        private unsafe static extern int piar_compvalues(int pt, ref int count, int* times, float* rvals,
+                                                         int* istats, int rev);
 
+        public unsafe static int piar_compvaluesex(int pt, ref int count, ref int[] times,
+                                                   out float[] rvals, out int[] istats, int prev)
+        {
+            rvals = new float[count];
+            istats = new int[count];
+            int result;
+            fixed (int* tPtr = times) {
+                fixed (float* rvPtr = rvals) {
+                    fixed (int* isPtr = istats) {
+                        result = piar_compvalues(pt, ref count, tPtr, rvPtr, isPtr, prev);
+                    }
+                }
+            }
+            return result;
+        }
 
         [DllImport("piapi32.dll")]
         public static extern int piar_compvaluesfil(int pt, ref int count, ref int[] times, out float[] rvals,
@@ -186,8 +201,24 @@ namespace PIBrowser
         public static extern int piar_deletevalue(int pt, int timedate);
 
         [DllImport("piapi32.dll")]
-        public static extern int piar_interpvalues(int pt, ref int count, ref int[] times,
-                                                   out float[] rvals, out int[] istats);
+        private unsafe static extern int piar_interpvalues(int pt, ref int count, int* times,
+                                                           float* rvals, int* istats);
+
+        public unsafe static int piar_interpvaluesex(int pt, ref int count, ref int[] times,
+                                                     out float[] rvals, out int[] istats)
+        {
+            rvals = new float[count];
+            istats = new int[count];
+            int result;
+            fixed (int* tPtr = times) {
+                fixed (float* rvPtr = rvals) {
+                    fixed (int* isPtr = istats) {
+                        result = piar_interpvalues(pt, ref count, tPtr, rvPtr, isPtr);
+                    }
+                }
+            }
+            return result;
+        }
 
         [DllImport("piapi32.dll")]
         public static extern int piar_interpvaluesfil(int pt, ref int count, ref int[] times,
@@ -607,10 +638,6 @@ namespace PIBrowser
 
         [DllImport("piapi32.dll")]
         public static extern int piut_strerror(int stat, out string msg, ref int msglen, string filter);
-
-        #endregion
-
-        #region Helpers
 
         #endregion
     }

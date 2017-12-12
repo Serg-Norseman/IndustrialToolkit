@@ -42,7 +42,7 @@ namespace PIBrowser
             using (var fmAbout = new AboutDlg()) {
                 fmAbout.lblProduct.Text = "PI Browser";
                 fmAbout.lblVersion.Text = "Version " + PIBUtils.GetFileVersion();
-                fmAbout.lblCopyright.Text = "© 2007-2012, 2017 Ждановских С.В.";
+                fmAbout.lblCopyright.Text = "© 2007-2012, 2017 Sergey V. Zhdanovskih";
                 fmAbout.lblMail.Text = "mailto:serg.zhdanovskih@gmail.com";
                 fmAbout.ShowDialog();
             }

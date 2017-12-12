@@ -371,7 +371,7 @@ namespace PIBrowser
         {
             CheckModifyTagList();
 
-            odTagList.Filter = "Файл списка тегов (*.lst)|*.lst|Все файлы|*.*";
+            odTagList.Filter = "Tags list file (*.lst)|*.lst|All files|*.*";
             odTagList.InitialDirectory = PIBUtils.GetAppPath();
 
             if (odTagList.ShowDialog() == DialogResult.OK) {
@@ -383,9 +383,9 @@ namespace PIBrowser
 
                 fCurTagListFile = odTagList.FileName;
                 if (!string.IsNullOrEmpty(fCurTagListFile)) {
-                    CaptionTagList = "Текущий Тег-список: " + Path.GetFileName(fCurTagListFile);
+                    CaptionTagList = "Current list of tags: " + Path.GetFileName(fCurTagListFile);
                 } else {
-                    CaptionTagList = "Нет загруженных тег-списков";
+                    CaptionTagList = "No loaded tag lists";
                 }
                 fModified = false;
             }
@@ -393,7 +393,7 @@ namespace PIBrowser
 
         public void tbTLSaveClick(object sender, EventArgs e)
         {
-            sdTagList.Filter = "Файл списка тегов (*.lst)|*.lst|Все файлы|*.*";
+            sdTagList.Filter = "Tags list file (*.lst)|*.lst|All files|*.*";
             sdTagList.InitialDirectory = PIBUtils.GetAppPath();
 
             if (sdTagList.ShowDialog() == DialogResult.OK) {
@@ -414,7 +414,7 @@ namespace PIBrowser
                     }
                 }
 
-                CaptionTagList = "Текущий Тег-список: " + Path.GetFileName(sdTagList.FileName);
+                CaptionTagList = "Current list of tags: " + Path.GetFileName(sdTagList.FileName);
                 fModified = false;
             }
         }
@@ -445,7 +445,7 @@ namespace PIBrowser
                 }
 
                 if (strList.Text != "") {
-                    PIBUtils.ShowMessage("Результаты анализа графиков:\n\r" + strList.Text);
+                    PIBUtils.ShowMessage("Analysis results:\n\r" + strList.Text);
                 }
             } catch (Exception ex) {
                 strList.Dispose();
@@ -533,7 +533,6 @@ namespace PIBrowser
             TrendChart1.Legend = true;
 
             TrendChart1.BeginUpdate();
-            TrendChart1.Clear();
             for (int k = 0; k < MAX_TRENDS; k++)
             {
                 int num2 = k / 4;
@@ -576,7 +575,8 @@ namespace PIBrowser
                 if (!string.IsNullOrEmpty(trendObj.Tag)) {
                     float zero, span;
                     PIBUtils.piLoadTrend(trendObj.Series, trendObj.Tag, (LoadFlags)0, aBeg, aEnd, out zero, out span);
-                    double num6 = 0.0;
+
+                    double sum = 0.0;
                     if (trendObj.Series.Count > 0) {
                         AnalitikMAX[k] = trendObj.Series[0].pValue;
                         AnalitikMIN[k] = trendObj.Series[0].pValue;
@@ -587,7 +587,7 @@ namespace PIBrowser
 
                     for (int i = 0; i < trendObj.Series.Count; i++) {
                         TrendPoint trendPt = trendObj.Series[i];
-                        num6 = (num6 + trendPt.pValue);
+                        sum = (sum + trendPt.pValue);
                         if (trendPt.pValue >= AnalitikMAX[k]) {
                             AnalitikMAX[k] = trendPt.pValue;
                         }
@@ -597,7 +597,7 @@ namespace PIBrowser
                     }
 
                     if (trendObj.Series.Count != 0) {
-                        AnalitikAVG[k] = (num6 / (double)trendObj.Series.Count);
+                        AnalitikAVG[k] = (sum / (double)trendObj.Series.Count);
                     } else {
                         AnalitikAVG[k] = 0.0;
                     }
@@ -612,12 +612,10 @@ namespace PIBrowser
                     AnalitikMAX[k] = 0.0;
                     AnalitikMIN[k] = 0.0;
                 }
-
-                double d1 = 0, d2 = 0;
-                TrendChart1.DrawTrend(k, ref d1, ref d2);
             }
 
             TrendChart1.FiltersApply();
+            TrendChart1.DrawTrends();
             TrendChart1.EndUpdate();
             TrendChart1.Invalidate();
         }
@@ -694,7 +692,7 @@ namespace PIBrowser
         private void UpdateStatusBar()
         {
             StatusBarPanel statusPanel = stb.Panels[0];
-            statusPanel.Text = "Всего тегов : " + Convert.ToString(lvTags.Items.Count);
+            statusPanel.Text = "Total tags: " + Convert.ToString(lvTags.Items.Count);
         }
 
         private void CheckModifyTagList()
@@ -702,9 +700,9 @@ namespace PIBrowser
             if (!string.IsNullOrEmpty(fCurTagListFile) && fModified) {
                 using (IniFile iniFile = new IniFile(fCurTagListFile)) {
                     if (PIBUtils.ShowQuestionYN(string.Concat(new string[] {
-                                                                  "Тег-список: \"",
+                                                                  "List of tags: \"",
                                                                   Path.GetFileName(fCurTagListFile),
-                                                                  "\" изменен. Сохранить изменения?"
+                                                                  "\" is changed. Save changes?"
                                                               }))) {
                         for (int i = 1; i <= MAX_TRENDS; i++) {
                             TrendObj trendObj = TrendChart1[i - 1];
@@ -772,26 +770,9 @@ namespace PIBrowser
 
         public void LoadConnectionSettings()
         {
-            using (IniFile iniFile = new IniFile(PIBUtils.GetIniFile())) {
-                ConServerName = iniFile.ReadString(PIBUtils.AppName, "ConServerName", "server");
-                ConUser = iniFile.ReadString(PIBUtils.AppName, "ConUser", "user");
-            }
-        }
-
-        public void SaveConnectionSettings()
-        {
-            using (IniFile iniFile = new IniFile(PIBUtils.GetIniFile())) {
-                iniFile.WriteString(PIBUtils.AppName, "ConServerName", ConServerName);
-                iniFile.WriteString(PIBUtils.AppName, "ConUser", ConUser);
-            }
-        }
-
-        public void LoadOptions()
-        {
             try {
                 using (IniFile iniFile = new IniFile(PIBUtils.GetIniFile())) {
                     ConServerName = iniFile.ReadString(PIBUtils.AppName, "ConServerName", "");
-                    ConPassword = iniFile.ReadString(PIBUtils.AppName, "ConPassword", "");
                     ConUser = iniFile.ReadString(PIBUtils.AppName, "ConUser", "");
                 }
             } catch (Exception ex) {
@@ -799,11 +780,12 @@ namespace PIBrowser
             }
         }
 
-        public void SaveOptions()
+        public void SaveConnectionSettings()
         {
             try {
                 using (IniFile iniFile = new IniFile(PIBUtils.GetIniFile())) {
-                    iniFile.WriteString(PIBUtils.AppName, "ConServerName", fmConnection.cmbServer.Text);
+                    iniFile.WriteString(PIBUtils.AppName, "ConServerName", ConServerName);
+                    iniFile.WriteString(PIBUtils.AppName, "ConUser", ConUser);
                 }
             } catch (Exception ex) {
             }
@@ -835,7 +817,7 @@ namespace PIBrowser
                                 filter.SubstractionNoiseDegree = (FilterDegree)iniFile.ReadInteger("Trends", "SubstractionNoiseDegree" + Convert.ToString(i), 0);
                             }
                         } else {
-                            PIBUtils.ShowWarning("Тег: " + trendObj.Tag + " не существует");
+                            PIBUtils.ShowWarning("Tag " + trendObj.Tag + " not exists");
                             trendObj.Tag = "";
                             fModified = true;
                         }
@@ -847,7 +829,7 @@ namespace PIBrowser
                 LVTagsClick(lvTags, null);
             }
 
-            CaptionTagList = "Текущий Тег-список: " + Path.GetFileName(trendListFile);
+            CaptionTagList = "Current list of tags: " + Path.GetFileName(trendListFile);
         }
 
         private void MoveDateTime(PeriodMove dir)

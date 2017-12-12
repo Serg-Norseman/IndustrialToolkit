@@ -34,6 +34,9 @@ namespace PIBrowser.Filters
     {
         private const double TwoPi = 2 * Math.PI;
 
+        // Длина входной выборки
+        private readonly int fSampleCount;
+
         // Режим работы фильтра
         private FilterMode fMode;
         // Полоса фильтра
@@ -49,8 +52,6 @@ namespace PIBrowser.Filters
 
         // Сумма спектральных составляющих без постоянной составляющей
         private double fSumSpectrum;
-        // Длина входной выборки
-        private int fSampleCount;
         // Количество спектральных составляющих
         private int fSpectrumCount;
         // Количество элементов гистограммы
@@ -97,15 +98,24 @@ namespace PIBrowser.Filters
             SQRe = new double[fSampleCount];
         }
 
-        public double[] SetLength(double[] original, int size)
+        public static int[] SetLength(int[] original, int size)
         {
+            var res = new int[size];
             if (original != null) {
-                double[] res = new double[size];
+                size = Math.Min(size, original.Length);
                 Array.Copy(original, res, size);
-                return res;
-            } else {
-                return new double[size];
             }
+            return res;
+        }
+
+        public static double[] SetLength(double[] original, int size)
+        {
+            var res = new double[size];
+            if (original != null) {
+                size = Math.Min(size, original.Length);
+                Array.Copy(original, res, size);
+            }
+            return res;
         }
 
         // Метод - добавить элемент входных данных
@@ -169,11 +179,7 @@ namespace PIBrowser.Filters
             if (value > 1) {
                 fBandWidth = 1;
             } else {
-                if (value < 0) {
-                    fBandWidth = 0;
-                } else {
-                    fBandWidth = value;
-                }
+                fBandWidth = (value < 0) ? 0 : value;
             }
         }
 
@@ -374,11 +380,7 @@ namespace PIBrowser.Filters
             for (i = 0; i <= fSpectrumCount - 1; i++) {
                 SpIm[i] = 0;
                 SpMod[i] = 0;
-                if (i < fSampleCount) {
-                    SpRe[i] = SQRe[i];
-                } else {
-                    SpRe[i] = 0;
-                }
+                SpRe[i] = (i < fSampleCount) ? SQRe[i] : 0;
             }
 
             xMm = 1;
@@ -567,8 +569,8 @@ namespace PIBrowser.Filters
                 return;
             }
 
-            int[] xTemporary = null; // Массив слияния индексов
-            xTemporary = new int[SizeArray];
+            // Массив слияния индексов
+            var xTemporary = new int[SizeArray];
 
             for (i = 0; i <= SizeArray - 1; i++) {
                 intIndex[i] = i;
@@ -690,14 +692,11 @@ namespace PIBrowser.Filters
             int i, n;
             int NumberHarmonic;
             double PeriodHarmonic;
-            double[] dblTempArray;
-            int[] intTempNumberHarmonic;
-            int[] intTempIndex;
+            double[] dblTempArray = null;
+            int[] intTempNumberHarmonic = null;
+            int[] intTempIndex = null;
 
             fHostHarmonic = null;
-            dblTempArray = null;
-            intTempIndex = null;
-            intTempNumberHarmonic = null;
 
             n = 0;
 
@@ -706,8 +705,8 @@ namespace PIBrowser.Filters
                 && ((SpModO[1] > fThreshold) || (fMode == FilterMode.mdLowPassFilter))) {
                 n++;
                 dblTempArray = SetLength(dblTempArray, n);
-                intTempNumberHarmonic = new int[n];
                 dblTempArray[n - 1] = SpModO[1];
+                intTempNumberHarmonic = SetLength(intTempNumberHarmonic, n);
                 intTempNumberHarmonic[n - 1] = 1;
             }
 
@@ -717,8 +716,8 @@ namespace PIBrowser.Filters
                     && ((SpModO[i] > fThreshold) || (fMode == FilterMode.mdLowPassFilter) || (fMode == FilterMode.mdNoneFiltering))) {
                     n++;
                     dblTempArray = SetLength(dblTempArray, n);
-                    intTempNumberHarmonic = new int[n];
                     dblTempArray[n - 1] = SpModO[i];
+                    intTempNumberHarmonic = SetLength(intTempNumberHarmonic, n);
                     intTempNumberHarmonic[n - 1] = i;
                 }
             }

@@ -135,7 +135,7 @@ namespace PIBrowser
                 "dec"
             };
 
-            PIBUtils.ArchiveRetrievalMode = PIArchiveRetrievalMode.armTimeInterpolated;
+            PIBUtils.ArchiveRetrievalMode = PIArchiveRetrievalMode.armInterpolated;
         }
 
 
@@ -274,11 +274,11 @@ namespace PIBrowser
                                     break;
 
                                 case PIArchiveRetrievalMode.armInterpolated:
-                                    res = PIAPI32.piar_interpvalues(tagNum, ref cnt, ref times, out rvals, out istats);
+                                    res = PIAPI32.piar_interpvaluesex(tagNum, ref cnt, ref times, out rvals, out istats);
                                     break;
 
                                 case PIArchiveRetrievalMode.armCompressed:
-                                    res = PIAPI32.piar_compvalues(tagNum, ref cnt, ref times, out rvals, out istats, 0);
+                                    res = PIAPI32.piar_compvaluesex(tagNum, ref cnt, ref times, out rvals, out istats, 0);
                                     break;
                             }
 
