@@ -1,0 +1,14 @@
+**/.vs/
+/*.exe*
+/*.dll
+*.pdb
+*.mdb
+*.suo
+*.userprefs
+*.DotSettings.user
+
+/AFEventsCleaner/bin/
+/AFEventsCleaner/obj/
+
+/PITagsCleaner/bin/
+/PITagsCleaner/obj/

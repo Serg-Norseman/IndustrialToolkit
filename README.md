@@ -1,1 +1,5 @@
 # PIToolkit
+
+Contents:
+- AFEventsCleaner
+- PITagsCleaner
