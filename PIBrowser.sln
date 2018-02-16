@@ -1,0 +1,24 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+# SharpDevelop 5.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PIBrowser", "PIBrowser\PIBrowser.csproj", "{C6B8E368-7807-440A-9A48-03B3A89C5878}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PIBrowserTests", "PIBrowserTests\PIBrowserTests.csproj", "{B45CA2DF-3F5E-4765-AEBF-4C2C0D4DAF04}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C6B8E368-7807-440A-9A48-03B3A89C5878}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C6B8E368-7807-440A-9A48-03B3A89C5878}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C6B8E368-7807-440A-9A48-03B3A89C5878}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C6B8E368-7807-440A-9A48-03B3A89C5878}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B45CA2DF-3F5E-4765-AEBF-4C2C0D4DAF04}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B45CA2DF-3F5E-4765-AEBF-4C2C0D4DAF04}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B45CA2DF-3F5E-4765-AEBF-4C2C0D4DAF04}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B45CA2DF-3F5E-4765-AEBF-4C2C0D4DAF04}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
