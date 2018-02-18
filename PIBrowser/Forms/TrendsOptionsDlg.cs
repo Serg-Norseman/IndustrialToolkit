@@ -18,7 +18,7 @@
 
 using System;
 using System.Windows.Forms;
-using GKCommon;
+using BSLib;
 using PIBrowser.Filters;
 
 namespace PIBrowser
@@ -198,16 +198,16 @@ namespace PIBrowser
 
             trendObj.AutoScaleMin = chkMin.Checked;
             if (!trendObj.AutoScaleMin) {
-                trendObj.Min = SysUtils.ParseFloat(txtMin.Text, 0);
+                trendObj.Min = ConvertHelper.ParseFloat(txtMin.Text, 0);
             }
             trendObj.AutoScaleMax = chkMax.Checked;
             if (!trendObj.AutoScaleMax) {
-                trendObj.Max = SysUtils.ParseFloat(txtMax.Text, 0);
+                trendObj.Max = ConvertHelper.ParseFloat(txtMax.Text, 0);
             }
             trendObj.Visible = chkVisible.Checked;
             trendObj.Series.PostAction = (PostAction)rgPrepareMode.SelectedIndex;
             trendObj.ShowSource = chkShowSource.Checked;
-            fFilterOptions.BandWidth = SysUtils.ParseFloat(txtBandWidth.Text, 0);
+            fFilterOptions.BandWidth = ConvertHelper.ParseFloat(txtBandWidth.Text, 0);
             fFilterOptions.Overshoot = chkOvershoot.Checked;
             fFilterOptions.SuppressionDegree = (FilterDegree)cmbSuppressionDegree.SelectedIndex;
             fFilterOptions.SubstractionNoiseDegree = (FilterDegree)cmbSubstractionNoiseDegree.SelectedIndex;

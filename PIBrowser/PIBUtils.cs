@@ -21,7 +21,7 @@ using System.Drawing;
 using System.IO;
 using System.Reflection;
 using System.Windows.Forms;
-using GKCommon;
+using BSLib;
 
 namespace PIBrowser
 {
@@ -361,9 +361,19 @@ namespace PIBrowser
             return DateTime.ParseExact(xtime, "HH:mm:ss", null);
         }
 
+        private static double FInt(double value)
+        {
+            return ((value > (double)0f) ? Math.Floor(value) : Math.Ceiling(value));
+        }
+
+        private static double Frac(double value)
+        {
+            return (value - FInt(value));
+        }
+
         public static int GetSession(DateTime aDate)
         {
-            double num = SysUtils.Frac(aDate.ToOADate());
+            double num = Frac(aDate.ToOADate());
             int result;
             if (num > 0.333333333333333 && num <= 0.833333333333333) {
                 result = 2;

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using BSLib.Math;
 using NUnit.Framework;
+using BSLib;
 using PIBrowser;
 using PIBrowser.Filters;
 
@@ -31,8 +31,8 @@ namespace PIBrowserTests
             
             Assert.AreEqual(3.0, filter.Run(3.0));
             Assert.AreEqual(2.0, filter.Run(1.0));
-            Assert.IsTrue(DoubleHelper.equals(4.66666, filter.Run(10.0)));
-            Assert.IsTrue(DoubleHelper.equals(4.33333, filter.Run(2.0)));
+            Assert.IsTrue(DoubleHelper.Equals(4.66666, filter.Run(10.0)));
+            Assert.IsTrue(DoubleHelper.Equals(4.33333, filter.Run(2.0)));
         }
 
         [Test]

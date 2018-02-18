@@ -1,10 +1,16 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2010
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
 # SharpDevelop 5.1
+VisualStudioVersion = 12.0.20827.3
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PIBrowser", "PIBrowser\PIBrowser.csproj", "{C6B8E368-7807-440A-9A48-03B3A89C5878}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PIBrowserTests", "PIBrowserTests\PIBrowserTests.csproj", "{B45CA2DF-3F5E-4765-AEBF-4C2C0D4DAF04}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AFEventsCleaner", "AFEventsCleaner\AFEventsCleaner.csproj", "{246C2105-C134-4372-AAD6-727871C8FFB1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PITagsCleaner", "PITagsCleaner\PITagsCleaner.csproj", "{F43F2E7D-DEC8-4586-A8AD-B13152A1DF51}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -20,5 +26,13 @@ Global
 		{B45CA2DF-3F5E-4765-AEBF-4C2C0D4DAF04}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B45CA2DF-3F5E-4765-AEBF-4C2C0D4DAF04}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B45CA2DF-3F5E-4765-AEBF-4C2C0D4DAF04}.Release|Any CPU.Build.0 = Release|Any CPU
+		{246C2105-C134-4372-AAD6-727871C8FFB1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{246C2105-C134-4372-AAD6-727871C8FFB1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{246C2105-C134-4372-AAD6-727871C8FFB1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{246C2105-C134-4372-AAD6-727871C8FFB1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F43F2E7D-DEC8-4586-A8AD-B13152A1DF51}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F43F2E7D-DEC8-4586-A8AD-B13152A1DF51}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F43F2E7D-DEC8-4586-A8AD-B13152A1DF51}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F43F2E7D-DEC8-4586-A8AD-B13152A1DF51}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
