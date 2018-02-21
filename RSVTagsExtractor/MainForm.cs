@@ -4,7 +4,7 @@ using System.IO;
 using System.Text;
 using System.Windows.Forms;
 using System.Xml;
-using Externals;
+using BSLib;
 
 namespace RSVTagsExtractor
 {
@@ -76,7 +76,7 @@ namespace RSVTagsExtractor
         private void LoadCSV()
         {
             if (!string.IsNullOrEmpty(fCSVFilename)) {
-                fCSVData = CSVReader.ReadCSVFile(fCSVFilename, Encoding.GetEncoding(1251), true);
+                fCSVData = CSVReader.ReadCSVFile(fCSVFilename, Encoding.GetEncoding(1251), true, CSVReader.COMMA_SEPARATOR);
             }
         }
 

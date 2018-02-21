@@ -3,7 +3,7 @@ using System.Data;
 using System.IO;
 using System.Text;
 using System.Windows.Forms;
-using Externals;
+using BSLib;
 using OpenMcdf;
 
 namespace WCCTagsExtractor
@@ -188,7 +188,7 @@ namespace WCCTagsExtractor
         private void LoadCSV()
         {
             if (!string.IsNullOrEmpty(fCSVFilename)) {
-                fCSVData = CSVReader.ReadCSVFile(fCSVFilename, Encoding.GetEncoding(1251), true);
+                fCSVData = CSVReader.ReadCSVFile(fCSVFilename, Encoding.GetEncoding(1251), true, CSVReader.SEMICOLON_SEPARATOR);
             }
         }
 
