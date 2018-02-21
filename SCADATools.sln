@@ -2,7 +2,9 @@
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
 # SharpDevelop 5.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RSVTagsExtractor", "RSVTagsExtractor.csproj", "{28B0A4BD-3246-49B4-A797-8C009902E251}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RSVTagsExtractor", "RSVTagsExtractor\RSVTagsExtractor.csproj", "{28B0A4BD-3246-49B4-A797-8C009902E251}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WCCTagsExtractor", "WCCTagsExtractor\WCCTagsExtractor.csproj", "{2ABDE4E8-757E-4E63-A802-D65F9275709B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -14,5 +16,9 @@ Global
 		{28B0A4BD-3246-49B4-A797-8C009902E251}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{28B0A4BD-3246-49B4-A797-8C009902E251}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{28B0A4BD-3246-49B4-A797-8C009902E251}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2ABDE4E8-757E-4E63-A802-D65F9275709B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2ABDE4E8-757E-4E63-A802-D65F9275709B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2ABDE4E8-757E-4E63-A802-D65F9275709B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2ABDE4E8-757E-4E63-A802-D65F9275709B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
