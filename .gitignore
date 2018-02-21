@@ -7,5 +7,5 @@
 *.userprefs
 *.DotSettings.user
 
-/bin/
-/obj/
+/RSVTagsExtractor/bin/
+/RSVTagsExtractor/obj/
