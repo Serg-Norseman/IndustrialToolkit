@@ -1,19 +1,19 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="Build">
   <PropertyGroup>
-    <ProjectGuid>{B45CA2DF-3F5E-4765-AEBF-4C2C0D4DAF04}</ProjectGuid>
+    <ProjectGuid>{BE714B6B-FCC7-4852-BB8A-D7597C05F8BF}</ProjectGuid>
     <ProjectTypeGuids>{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <OutputType>Library</OutputType>
-    <RootNamespace>PIBrowserTests</RootNamespace>
-    <AssemblyName>PIBrowserTests</AssemblyName>
+    <OutputType>WinExe</OutputType>
+    <RootNamespace>AFGroupReplace</RootNamespace>
+    <AssemblyName>PBToolkitBar</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Platform)' == 'AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
+    <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <OutputPath>bin\Debug\</OutputPath>
@@ -32,24 +32,39 @@
     <DefineConstants>TRACE</DefineConstants>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="BSLib">
-      <HintPath>..\PIBrowser\libs\BSLib.dll</HintPath>
+    <Reference Include="OSIsoft.AF.UI">
+      <HintPath>libs\OSIsoft.AF.UI.dll</HintPath>
     </Reference>
-    <Reference Include="nunit.framework">
-      <HintPath>nunit.framework.dll</HintPath>
+    <Reference Include="OSIsoft.AFSDK">
+      <HintPath>libs\OSIsoft.AFSDK.dll</HintPath>
+    </Reference>
+    <Reference Include="OSIsoft.PBObjLib">
+      <HintPath>libs\OSIsoft.PBObjLib.dll</HintPath>
+    </Reference>
+    <Reference Include="OSIsoft.PBSymLib">
+      <HintPath>libs\OSIsoft.PBSymLib.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AssemblyInfo.cs" />
-    <Compile Include="PIAPI32Tests.cs" />
-    <Compile Include="PIBTests.cs" />
+    <Compile Include="PBToolkitBar.cs" />
+    <Compile Include="PBToolkitBar.Designer.cs">
+      <DependentUpon>PBToolkitBar.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Program.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\PIBrowser\PIBrowser.csproj">
-      <Project>{C6B8E368-7807-440A-9A48-03B3A89C5878}</Project>
-      <Name>PIBrowser</Name>
-    </ProjectReference>
+    <None Include="app.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="PBToolkitBar.resx">
+      <DependentUpon>PBToolkitBar.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

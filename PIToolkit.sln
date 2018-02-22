@@ -12,6 +12,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AFEventsCleaner", "AFEvents
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PITagsCleaner", "PITagsCleaner\PITagsCleaner.csproj", "{F43F2E7D-DEC8-4586-A8AD-B13152A1DF51}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PBToolkitBar", "PBToolkitBar\PBToolkitBar.csproj", "{BE714B6B-FCC7-4852-BB8A-D7597C05F8BF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -34,5 +36,9 @@ Global
 		{F43F2E7D-DEC8-4586-A8AD-B13152A1DF51}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F43F2E7D-DEC8-4586-A8AD-B13152A1DF51}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F43F2E7D-DEC8-4586-A8AD-B13152A1DF51}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BE714B6B-FCC7-4852-BB8A-D7597C05F8BF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BE714B6B-FCC7-4852-BB8A-D7597C05F8BF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BE714B6B-FCC7-4852-BB8A-D7597C05F8BF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BE714B6B-FCC7-4852-BB8A-D7597C05F8BF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

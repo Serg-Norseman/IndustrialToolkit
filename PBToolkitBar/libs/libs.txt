@@ -1,0 +1,6 @@
+OSIsoft.AF.UI.dll
+OSIsoft.AF.UI.xml
+OSIsoft.AFSDK.dll
+OSIsoft.AFSDK.XML
+OSIsoft.PBObjLib.dll
+OSIsoft.PBSymLib.dll

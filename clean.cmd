@@ -12,3 +12,6 @@ rmdir .\PIBrowser\obj /s /q
 rmdir .\PIBrowserTests\bin /s /q
 rmdir .\PIBrowserTests\obj /s /q
 rmdir .\PIBrowserTests\OpenCover /s /q
+
+rmdir .\PBToolkitBar\bin /s /q
+rmdir .\PBToolkitBar\obj /s /q

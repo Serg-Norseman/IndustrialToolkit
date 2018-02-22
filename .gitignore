@@ -21,3 +21,8 @@
 /PIBrowserTests/OpenCover/
 
 /temp/
+
+/PBToolkitBar/bin
+/PBToolkitBar/obj
+/PBToolkitBar/libs/*.dll
+/PBToolkitBar/libs/*.xml
