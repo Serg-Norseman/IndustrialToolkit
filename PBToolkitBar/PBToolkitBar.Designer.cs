@@ -13,6 +13,7 @@
         private System.Windows.Forms.Button btnSetMS;
         private System.Windows.Forms.Button btnSetINKProps;
         private System.Windows.Forms.Button btnTagsAnalyse;
+        private System.Windows.Forms.Button btnSetValuesEU;
         
         protected override void Dispose(bool disposing)
         {
@@ -36,6 +37,7 @@
             this.btnSetMS = new System.Windows.Forms.Button();
             this.btnSetINKProps = new System.Windows.Forms.Button();
             this.btnTagsAnalyse = new System.Windows.Forms.Button();
+            this.btnSetValuesEU = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // btnReplace
@@ -88,7 +90,7 @@
             this.txtSource.Name = "txtSource";
             this.txtSource.Size = new System.Drawing.Size(278, 28);
             this.txtSource.TabIndex = 1;
-            this.txtSource.Text = "ИРКУТСКАЯ НЕФТЯНАЯ КОМПАНИЯ";
+            this.txtSource.Text = "???";
             // 
             // txtTarget
             // 
@@ -144,11 +146,23 @@
             this.btnTagsAnalyse.UseVisualStyleBackColor = true;
             this.btnTagsAnalyse.Click += new System.EventHandler(this.btnTagsAnalyse_Click);
             // 
+            // btnSetValuesEU
+            // 
+            this.btnSetValuesEU.Location = new System.Drawing.Point(14, 152);
+            this.btnSetValuesEU.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.btnSetValuesEU.Name = "btnSetValuesEU";
+            this.btnSetValuesEU.Size = new System.Drawing.Size(136, 38);
+            this.btnSetValuesEU.TabIndex = 3;
+            this.btnSetValuesEU.Text = "SetValuesEU";
+            this.btnSetValuesEU.UseVisualStyleBackColor = true;
+            this.btnSetValuesEU.Click += new System.EventHandler(this.btnSetValuesEU_Click);
+            // 
             // PBToolkitBar
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 21F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(760, 157);
+            this.ClientSize = new System.Drawing.Size(760, 203);
+            this.Controls.Add(this.btnSetValuesEU);
             this.Controls.Add(this.cmbColors);
             this.Controls.Add(this.txtTarget);
             this.Controls.Add(this.txtSource);

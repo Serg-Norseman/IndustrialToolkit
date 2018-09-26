@@ -154,8 +154,7 @@ namespace PBToolkitBar
 
         private string ReplaceElementName(string tagName, string newElementName)
         {
-            if (tagName.IndexOf('|') < 0)
-                return tagName;
+            if (tagName.IndexOf('|') < 0) return tagName;
 
             string[] parts = tagName.Split('|');
 
@@ -183,8 +182,7 @@ namespace PBToolkitBar
             
             string sour = txtSource.Text;
             string targ = txtTarget.Text;
-            if (sour == "" || targ == "")
-                return;
+            if (sour == "" || targ == "") return;
 
             Display disp = m_App.ActiveDisplay;
             var selectedSyms = disp.SelectedSymbols;
@@ -252,8 +250,7 @@ namespace PBToolkitBar
 
         private string ReplacePart(string tagName, string sour, string targ)
         {
-            if (tagName.IndexOf(sour) < 0)
-                return tagName;
+            if (tagName.IndexOf(sour) < 0) return tagName;
 
             string result = tagName.Replace(sour, targ);
             return result;
@@ -400,35 +397,35 @@ namespace PBToolkitBar
 
                 } else {
 
-                    if (sym.Type == (int)PBObjLib.pbSYMBOLTYPE.pbSymbolBitmap && (sym.Name == "grPrint" || sym.Name == "grTrendOptions")) {
+                    /*if (sym.Type == (int)PBObjLib.pbSYMBOLTYPE.pbSymbolBitmap && (sym.Name == "grPrint" || sym.Name == "grTrendOptions")) {
                         sym.Visible = false;
-                    }
+                    }*/
 
-                    if (sym.Type == (int)PBObjLib.pbSYMBOLTYPE.pbSymbolText && sym.Name == "Text1") {
+                    if (sym.Type == (int)PBObjLib.pbSYMBOLTYPE.pbSymbolText /*&& sym.Name == "Text1"*/) {
                         Text txt = sym as Text;
-                        txt.BackgroundColor = (int)pbTrendCOLOR.pbNone_Color;
+                        //txt.BackgroundColor = (int)pbTrendCOLOR.pbNone_Color;
                         if (txt.Contents == txtSource.Text && !string.IsNullOrEmpty(txtTarget.Text)) {
                             txt.Contents = txtTarget.Text;
-                            txt.Font.Italic = false;
-                            txt.Font.Size = 40;
+                            //txt.Font.Italic = false;
+                            //txt.Font.Size = 40;
                         }
                     }
 
-                    if (sym.Type == (int)PBObjLib.pbSYMBOLTYPE.pbSymbolText && sym.Name == "TextTimer") {
+                    /*if (sym.Type == (int)PBObjLib.pbSYMBOLTYPE.pbSymbolText && sym.Name == "TextTimer") {
                         Text txt = sym as Text;
                         txt.Left = -11165;
                         txt.Font.Italic = false;
                         txt.BackgroundColor = (int)pbTrendCOLOR.pbNone_Color;
-                    }
+                    }*/
 
-                    try {
+                    /*try {
                         if (sym.Type == (int)PBObjLib.pbSYMBOLTYPE.pbSymbolValue) {
                             Value obj = (Value)sym;
                             obj.NumberFormat = "Database";
                         }
                     } catch (Exception ex) {
                         //MessageBox.Show(string.Format("SetNumberFormat({0}): {1}", sym.Name, ex.Message));
-                    }
+                    }*/
                 }
             } catch (Exception ex) {
                 //MessageBox.Show(ex.Message);
@@ -472,6 +469,29 @@ namespace PBToolkitBar
             
             writer.Flush();
             writer.Close();
+        }
+
+        private void btnSetValuesEU_Click(object sender, EventArgs e)
+        {
+            btnConnect_Click(null, null);
+
+            Display disp = m_App.ActiveDisplay;
+            PBTKUtils.ProcessSymbols(disp.Symbols, ProcessValueEU);
+            disp.Refresh();
+
+            MessageBox.Show("Processing finished");
+        }
+
+        private void ProcessValueEU(Symbol sym)
+        {
+            try {
+                if (sym.Type == (int)PBObjLib.pbSYMBOLTYPE.pbSymbolValue) {
+                    Value obj = (Value)sym;
+                    obj.ShowUOM = true;
+                }
+            } catch (Exception ex) {
+                //MessageBox.Show(ex.Message);
+            }
         }
     }
 }
