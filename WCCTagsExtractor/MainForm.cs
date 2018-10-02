@@ -49,6 +49,8 @@ namespace WCCTagsExtractor
 
         void btnSelectPDL_Click(object sender, EventArgs e)
         {
+            textBox1.Clear();
+
             using (var ofd = new OpenFileDialog()) {
                 ofd.Filter = "WinCC graphics files (*.pdl)|*.pdl";
                 if (ofd.ShowDialog() == DialogResult.OK) {
@@ -66,23 +68,21 @@ namespace WCCTagsExtractor
                     DefineEncoding();
 
                     if (chkDebugMode.Checked) {
-                        ParsePDL(true);
+                        ParsePDL(null, true);
                     }
                 }
             }
         }
 
-        private void ParsePDL(bool debug)
+        private void ParsePDL(StreamWriter wrtOut, bool debug)
         {
-            textBox1.Clear();
-
             using (var fs = new FileStream(fPDLFileName, FileMode.Open)) {
                 using (var cf = new CompoundFile(fs)) {
                     CFStream cfStm = cf.RootStorage.GetStream("DynamicsStream");
                     byte[] bytes = cfStm.GetData();
                     using (var ms = new MemoryStream(bytes)) {
                         using (var binRd = new BinaryReader(ms, Encoding.Unicode)) {
-                            ParsePDL(binRd, null, debug);
+                            ParsePDL(binRd, wrtOut, debug);
                         }
                     }
                 }
@@ -259,17 +259,7 @@ namespace WCCTagsExtractor
                 wrtOut.WriteLine(header);
             }
 
-            using (var fs = new FileStream(fPDLFileName, FileMode.Open)) {
-                using (var cf = new CompoundFile(fs)) {
-                    CFStream cfStm = cf.RootStorage.GetStream("DynamicsStream");
-                    byte[] bytes = cfStm.GetData();
-                    using (var ms = new MemoryStream(bytes)) {
-                        using (var binRd = new BinaryReader(ms, Encoding.Unicode)) {
-                            ParsePDL(binRd, wrtOut, false);
-                        }
-                    }
-                }
-            }
+            ParsePDL(wrtOut, false);
 
             if (wrtOut != null) {
                 wrtOut.Flush();
