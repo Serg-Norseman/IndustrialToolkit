@@ -9,14 +9,13 @@
         private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.TextBox txtOutputFilename;
         private System.Windows.Forms.TextBox txtCSVFilename;
-        private System.Windows.Forms.Button btnSelectOutputCSV;
-        private System.Windows.Forms.Button btnExtract;
         private System.Windows.Forms.Button btnSelectCSV;
         private System.Windows.Forms.Button btnSelectPDL;
         private System.Windows.Forms.TextBox txtPDLFilename;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.ComboBox cmbEncoding;
         private System.Windows.Forms.CheckBox chkDebugMode;
+        private System.Windows.Forms.Label label2;
         
         /// <summary>
         /// Disposes resources used by the form.
@@ -43,22 +42,21 @@
             this.txtOutputFilename = new System.Windows.Forms.TextBox();
             this.txtCSVFilename = new System.Windows.Forms.TextBox();
             this.txtPDLFilename = new System.Windows.Forms.TextBox();
-            this.btnSelectOutputCSV = new System.Windows.Forms.Button();
-            this.btnExtract = new System.Windows.Forms.Button();
             this.btnSelectCSV = new System.Windows.Forms.Button();
             this.btnSelectPDL = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.cmbEncoding = new System.Windows.Forms.ComboBox();
             this.chkDebugMode = new System.Windows.Forms.CheckBox();
+            this.label2 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // textBox1
             // 
-            this.textBox1.Location = new System.Drawing.Point(14, 207);
+            this.textBox1.Location = new System.Drawing.Point(14, 199);
             this.textBox1.Multiline = true;
             this.textBox1.Name = "textBox1";
             this.textBox1.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.textBox1.Size = new System.Drawing.Size(1038, 314);
+            this.textBox1.Size = new System.Drawing.Size(1149, 328);
             this.textBox1.TabIndex = 10;
             // 
             // txtOutputFilename
@@ -85,26 +83,6 @@
             this.txtPDLFilename.Size = new System.Drawing.Size(752, 22);
             this.txtPDLFilename.TabIndex = 9;
             // 
-            // btnSelectOutputCSV
-            // 
-            this.btnSelectOutputCSV.Enabled = false;
-            this.btnSelectOutputCSV.Location = new System.Drawing.Point(12, 100);
-            this.btnSelectOutputCSV.Name = "btnSelectOutputCSV";
-            this.btnSelectOutputCSV.Size = new System.Drawing.Size(161, 38);
-            this.btnSelectOutputCSV.TabIndex = 3;
-            this.btnSelectOutputCSV.Text = "Select CSV (tags out)";
-            this.btnSelectOutputCSV.UseVisualStyleBackColor = true;
-            // 
-            // btnExtract
-            // 
-            this.btnExtract.Location = new System.Drawing.Point(12, 163);
-            this.btnExtract.Name = "btnExtract";
-            this.btnExtract.Size = new System.Drawing.Size(161, 38);
-            this.btnExtract.TabIndex = 4;
-            this.btnExtract.Text = "Extract tags";
-            this.btnExtract.UseVisualStyleBackColor = true;
-            this.btnExtract.Click += new System.EventHandler(this.btnExtract_Click);
-            // 
             // btnSelectCSV
             // 
             this.btnSelectCSV.Location = new System.Drawing.Point(12, 56);
@@ -127,7 +105,7 @@
             // 
             // label1
             // 
-            this.label1.Location = new System.Drawing.Point(344, 160);
+            this.label1.Location = new System.Drawing.Point(12, 154);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(100, 23);
             this.label1.TabIndex = 11;
@@ -141,37 +119,45 @@
             "ASCII",
             "Win1251",
             "Unicode"});
-            this.cmbEncoding.Location = new System.Drawing.Point(450, 157);
+            this.cmbEncoding.Location = new System.Drawing.Point(179, 151);
             this.cmbEncoding.Name = "cmbEncoding";
             this.cmbEncoding.Size = new System.Drawing.Size(148, 24);
             this.cmbEncoding.TabIndex = 12;
             // 
             // chkDebugMode
             // 
-            this.chkDebugMode.Location = new System.Drawing.Point(717, 154);
+            this.chkDebugMode.Location = new System.Drawing.Point(446, 148);
             this.chkDebugMode.Name = "chkDebugMode";
             this.chkDebugMode.Size = new System.Drawing.Size(155, 31);
             this.chkDebugMode.TabIndex = 13;
             this.chkDebugMode.Text = "DebugMode";
             this.chkDebugMode.UseVisualStyleBackColor = true;
             // 
+            // label2
+            // 
+            this.label2.Location = new System.Drawing.Point(12, 111);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(100, 23);
+            this.label2.TabIndex = 11;
+            this.label2.Text = "CSV tags out";
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1065, 539);
+            this.ClientSize = new System.Drawing.Size(1175, 539);
             this.Controls.Add(this.chkDebugMode);
             this.Controls.Add(this.cmbEncoding);
+            this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.textBox1);
             this.Controls.Add(this.txtOutputFilename);
             this.Controls.Add(this.txtCSVFilename);
             this.Controls.Add(this.txtPDLFilename);
-            this.Controls.Add(this.btnSelectOutputCSV);
-            this.Controls.Add(this.btnExtract);
             this.Controls.Add(this.btnSelectCSV);
             this.Controls.Add(this.btnSelectPDL);
             this.Name = "MainForm";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "WinCC TagsExtractor";
             this.ResumeLayout(false);
             this.PerformLayout();
