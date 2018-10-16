@@ -55,8 +55,10 @@ namespace WCCTagsExtractor
                 ofd.Filter = "WinCC graphics files (*.pdl)|*.pdl";
                 ofd.Multiselect = true;
                 if (ofd.ShowDialog() == DialogResult.OK) {
-                    foreach (var x in ofd.FileNames) {
-                        SelectPdl(x);
+                    int num = ofd.FileNames.Length;
+                    for (int i = 0; i < num; i++) {
+                        Text = i + " / " + num;
+                        SelectPdl(ofd.FileNames[i]);
                     }
                 }
             }
@@ -226,8 +228,19 @@ namespace WCCTagsExtractor
                             }
                     }
 
-                    if (needOutput) {
-                        ProcessTag(num, objName, propName, tagName, wrtOut, debug, recHeader, recFooter);
+                    if (needOutput && !string.IsNullOrEmpty(propName) && !string.IsNullOrEmpty(tagName)) {
+                        LogTag(num, objName, propName, tagName, wrtOut, debug, recHeader, recFooter);
+
+                        bool res = ProcessTag(num, objName, propName, tagName, wrtOut, debug);
+
+                        // may be errors of pdl-parsing
+                        if (!res) {
+                            res = ProcessTag(num, objName, tagName, propName, wrtOut, debug);
+                        }
+
+                        if (!res && !debug) {
+                            textBox2.AppendText(propName + "  ||  " + tagName + "\r\n");
+                        }
                     }
 
                     if (num == size) {
@@ -317,11 +330,10 @@ namespace WCCTagsExtractor
             }
         }
 
-        private void ProcessTag(int num, string objName, string propName, string tagName, StreamWriter wrtOut, bool debug,
-                                byte[] header, byte[] footer)
+        private bool ProcessTag(int num, string objName, string propName, string tagName, StreamWriter wrtOut, bool debug)
         {
-            if (string.IsNullOrEmpty(tagName)) return;
-            if (tagName.EndsWith("_COMMENT") || tagName.EndsWith("_FORMAT") || tagName.EndsWith("_UNITS") || tagName.EndsWith("_SHORT")) return;
+            if (string.IsNullOrEmpty(tagName)) return false;
+            if (tagName.EndsWith("_COMMENT") || tagName.EndsWith("_FORMAT") || tagName.EndsWith("_UNITS") || tagName.EndsWith("_SHORT")) return false;
 
             /*int sharPos = tagName.IndexOf('#');
             if (sharPos > 0) {
@@ -333,22 +345,27 @@ namespace WCCTagsExtractor
                 tagName = tagName.Substring(nsPos + 2);
             }
 
-            DataRow row = null;
-            if (!debug) {
-                if (wrtOut != null) {
-                    row = SearchTag(tagName);
-                    if (row != null) {
-                        WriteTagInfo(row, objName+"@"+propName, wrtOut);
-                    }
+            bool result = false;
+            if (!debug && wrtOut != null) {
+                DataRow row = SearchTag(tagName);
+                if (row != null) {
+                    WriteTagInfo(row, objName + "@" + propName, wrtOut);
+                    result = true;
                 }
             }
 
+            return result;
+        }
+
+        private void LogTag(int num, string objName, string propName, string tagName, StreamWriter wrtOut, bool debug,
+            byte[] header, byte[] footer)
+        {
             if (debug) {
-                textBox1.AppendText(ByteArrayToString(header) + " ||  ");
+                textBox1.AppendText(ByteArrayToString(header) + " ~~   ");
             }
-            textBox1.AppendText(num.ToString() + " | " + objName + " | " + propName + " | " + tagName + " | " + ((row == null) ? "" : "ok"));
+            textBox1.AppendText(num.ToString() + " ~ " + objName + " ~ " + propName + " ~ " + tagName);
             if (debug) {
-                textBox1.AppendText("  || " + ByteArrayToString(footer));
+                textBox1.AppendText("   ~~ " + ByteArrayToString(footer));
             }
             textBox1.AppendText("\r\n");
         }

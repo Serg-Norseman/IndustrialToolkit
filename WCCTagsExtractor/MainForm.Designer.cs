@@ -16,6 +16,7 @@
         private System.Windows.Forms.ComboBox cmbEncoding;
         private System.Windows.Forms.CheckBox chkDebugMode;
         private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.TextBox textBox2;
         
         /// <summary>
         /// Disposes resources used by the form.
@@ -48,6 +49,7 @@
             this.cmbEncoding = new System.Windows.Forms.ComboBox();
             this.chkDebugMode = new System.Windows.Forms.CheckBox();
             this.label2 = new System.Windows.Forms.Label();
+            this.textBox2 = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // textBox1
@@ -56,7 +58,7 @@
             this.textBox1.Multiline = true;
             this.textBox1.Name = "textBox1";
             this.textBox1.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.textBox1.Size = new System.Drawing.Size(1149, 328);
+            this.textBox1.Size = new System.Drawing.Size(917, 328);
             this.textBox1.TabIndex = 10;
             // 
             // txtOutputFilename
@@ -141,11 +143,21 @@
             this.label2.TabIndex = 11;
             this.label2.Text = "CSV tags out";
             // 
+            // textBox2
+            // 
+            this.textBox2.Location = new System.Drawing.Point(937, 199);
+            this.textBox2.Multiline = true;
+            this.textBox2.Name = "textBox2";
+            this.textBox2.ScrollBars = System.Windows.Forms.ScrollBars.Both;
+            this.textBox2.Size = new System.Drawing.Size(386, 328);
+            this.textBox2.TabIndex = 14;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1175, 539);
+            this.ClientSize = new System.Drawing.Size(1335, 539);
+            this.Controls.Add(this.textBox2);
             this.Controls.Add(this.chkDebugMode);
             this.Controls.Add(this.cmbEncoding);
             this.Controls.Add(this.label2);
@@ -156,6 +168,8 @@
             this.Controls.Add(this.txtPDLFilename);
             this.Controls.Add(this.btnSelectCSV);
             this.Controls.Add(this.btnSelectPDL);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            this.MaximizeBox = false;
             this.Name = "MainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "WinCC TagsExtractor";
