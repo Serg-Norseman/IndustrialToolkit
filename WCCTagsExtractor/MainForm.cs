@@ -212,6 +212,19 @@ namespace WCCTagsExtractor
                                 break;
                             }
 
+                        case 0x0D: {
+                                byte[] bufX = binReader.ReadBytes(4);
+                                tagName = ReadStr(binReader, out code);
+                                break;
+                            }
+
+                        case 0x0E: {
+                                byte[] bufX = binReader.ReadBytes(4);
+                                string x1 = ReadStr(binReader, out code);
+                                tagName = ReadStr(binReader, out code);
+                                break;
+                            }
+
                         case 0x17:
                             {
                                 tagName = ReadStr(binReader, out code);
