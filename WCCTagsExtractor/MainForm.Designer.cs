@@ -58,7 +58,7 @@
             this.textBox1.Multiline = true;
             this.textBox1.Name = "textBox1";
             this.textBox1.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.textBox1.Size = new System.Drawing.Size(917, 328);
+            this.textBox1.Size = new System.Drawing.Size(1101, 328);
             this.textBox1.TabIndex = 10;
             // 
             // txtOutputFilename
@@ -145,7 +145,7 @@
             // 
             // textBox2
             // 
-            this.textBox2.Location = new System.Drawing.Point(937, 199);
+            this.textBox2.Location = new System.Drawing.Point(1121, 199);
             this.textBox2.Multiline = true;
             this.textBox2.Name = "textBox2";
             this.textBox2.ScrollBars = System.Windows.Forms.ScrollBars.Both;
@@ -156,7 +156,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1335, 539);
+            this.ClientSize = new System.Drawing.Size(1519, 539);
             this.Controls.Add(this.textBox2);
             this.Controls.Add(this.chkDebugMode);
             this.Controls.Add(this.cmbEncoding);

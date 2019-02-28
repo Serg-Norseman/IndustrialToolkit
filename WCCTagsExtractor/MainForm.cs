@@ -1,4 +1,6 @@
-﻿using System;
+﻿#define AUTO_ENCODE
+
+using System;
 using System.Data;
 using System.IO;
 using System.Linq;
@@ -57,8 +59,9 @@ namespace WCCTagsExtractor
                 if (ofd.ShowDialog() == DialogResult.OK) {
                     int num = ofd.FileNames.Length;
                     for (int i = 0; i < num; i++) {
-                        Text = i + " / " + num;
+                        Text = (i+1) + " / " + num;
                         SelectPdl(ofd.FileNames[i]);
+                        Update();
                     }
                 }
             }
@@ -158,31 +161,49 @@ namespace WCCTagsExtractor
                     num += 1;
 
                     byte[] recHeader = binReader.ReadBytes(6);
-                    byte recTypeX = recHeader[5];
                     byte[] recFooter = new byte[0];
 
-                    int code;
-                    string objName = "", propName = "", tagName = "";
+                    #if AUTO_ENCODE
+                    byte encod = recHeader[0];
+                    switch (encod) {
+                        case 1:
+                            fEncoding = Encoding.GetEncoding(1251);
+                            fIsUnicode = false;
+                            break;
+                        case 2:
+                        case 3:
+                            fEncoding = Encoding.Unicode;
+                            fIsUnicode = true;
+                            break;
+                        default:
+                            textBox1.AppendText(">>>> Unknown 'enc' code: " + encod + "\r\n");
+                            break;
+                    }
+                    #endif
+
+                    string objName, propName, tagName = "";
                     bool needOutput = true;
+                    bool breakout = false;
 
-                    objName = ReadStr(binReader, out code);
-                    propName = ReadStr(binReader, out code);
+                    objName = ReadStr(binReader);
+                    propName = ReadStr(binReader);
 
+                    byte recTypeX = recHeader[5];
                     switch (recTypeX) {
                         case 0x03:
                         case 0x07:
                         case 0x11:
                             {
                                 byte[] bufX = binReader.ReadBytes(4);
-                                tagName = ReadStr(binReader, out code);
+                                tagName = ReadStr(binReader);
                                 break;
                             }
 
                         case 0x04:
                             {
                                 byte[] bufX = binReader.ReadBytes(4);
-                                tagName = ReadStr(binReader, out code);
-                                string x2 = ReadStr(binReader, out code); // tag too
+                                tagName = ReadStr(binReader);
+                                string x2 = ReadStr(binReader); // tag too
                                 break;
                             }
 
@@ -190,60 +211,92 @@ namespace WCCTagsExtractor
                             {
                                 // button
                                 byte[] bufX = binReader.ReadBytes(8);
-                                string x1 = ReadStr(binReader, out code);
-                                string dispName = ReadStr(binReader, out code);
-                                string x2 = ReadStr(binReader, out code);
-                                string picName = ReadStr(binReader, out code);
+                                string x1 = ReadStr(binReader);
+                                string dispName = ReadStr(binReader);
+                                string x2 = ReadStr(binReader);
+                                string picName = ReadStr(binReader);
                                 needOutput = false;
+                                break;
+                            }
+
+                        case 0x1:
+                        case 0x2:
+                        case 0x10:
+                            {
+                                tagName = ReadStr(binReader);
+                                recFooter = binReader.ReadBytes(4);
+                                break;
+                            }
+
+                        case 0x8:
+                            {
+                                byte[] bufX = binReader.ReadBytes(4);
+                                tagName = ReadStr(binReader);
+                                break;
+                            }
+
+                        case 0x6:
+                            {
+                                if (encod != 1) {
+                                    tagName = ReadStr(binReader);
+                                }
+                                recFooter = binReader.ReadBytes(4);
+                                break;
+                            }
+
+                        case 0x0A:
+                            {
+                                tagName = ReadStr(binReader);
+                                recFooter = binReader.ReadBytes(4);
                                 break;
                             }
 
                         case 0x0B:
                             {
-                                string x1 = ReadStr(binReader, out code); // several tags separated by space (setpoints?)
+                                string x1 = ReadStr(binReader); // several tags separated by space (setpoints?)
                                 byte[] bufX = binReader.ReadBytes(4);
-                                tagName = ReadStr(binReader, out code);
+                                tagName = ReadStr(binReader);
                                 break;
                             }
 
                         case 0x0C:
                             {
-                                tagName = ReadStr(binReader, out code);
+                                tagName = ReadStr(binReader);
                                 break;
                             }
 
-                        case 0x0D: {
+                        case 0x0D:
+                            {
                                 byte[] bufX = binReader.ReadBytes(4);
-                                tagName = ReadStr(binReader, out code);
+                                tagName = ReadStr(binReader);
                                 break;
                             }
 
-                        case 0x0E: {
+                        case 0x0E:
+                            {
                                 byte[] bufX = binReader.ReadBytes(4);
-                                string x1 = ReadStr(binReader, out code);
-                                tagName = ReadStr(binReader, out code);
+                                string x1 = ReadStr(binReader);
+                                tagName = ReadStr(binReader);
                                 break;
                             }
 
                         case 0x17:
                             {
-                                tagName = ReadStr(binReader, out code);
+                                tagName = ReadStr(binReader);
                                 break;
                             }
 
                         default:
                             {
-                                if (code != -1) {
-                                    tagName = ReadStr(binReader, out code);
-                                }
-                                recFooter = binReader.ReadBytes(4);
+                                textBox1.AppendText(">>>> Unknown element type: " + recTypeX+"\r\n");
+                                breakout = true;
                                 break;
                             }
                     }
 
-                    if (needOutput && !string.IsNullOrEmpty(propName) && !string.IsNullOrEmpty(tagName)) {
-                        LogTag(num, objName, propName, tagName, wrtOut, debug, recHeader, recFooter);
+                    LogTag(num, objName, propName, tagName, wrtOut, debug, recHeader, recFooter);
 
+                    if (needOutput && !string.IsNullOrEmpty(propName) && !string.IsNullOrEmpty(tagName)) {
                         bool res = ProcessTag(num, objName, propName, tagName, wrtOut, debug);
 
                         // may be errors of pdl-parsing
@@ -254,6 +307,10 @@ namespace WCCTagsExtractor
                         if (!res && !debug) {
                             textBox2.AppendText(propName + "  ||  " + tagName + "\r\n");
                         }
+                    }
+
+                    if (breakout) {
+                        break;
                     }
 
                     if (num == size) {
@@ -281,65 +338,43 @@ namespace WCCTagsExtractor
         // strange, nonstandard BOM
         private static readonly byte[] BOM = new byte[] { 255, 254, 255 };
 
-        private string ReadStr(BinaryReader binReader, out int code)
+        private string ReadStr(BinaryReader binReader)
         {
             if (fIsUnicode) {
-                byte bt;
-                bt = binReader.ReadByte();
-                if (bt == 0x02) {
-                    code = -1;
-                    binReader.BaseStream.Seek(+5, SeekOrigin.Current);
-                    return "";
-                } else {
-                    if (bt == 0x04) {
-                    } else {
-                        code = 0;
-                        binReader.BaseStream.Seek(-1, SeekOrigin.Current);
-                    }
-                }
-
                 byte[] bom = binReader.ReadBytes(3);
                 if (!Algorithms.ArraysEqual(BOM, bom)) {
-                    code = -1;
                     binReader.BaseStream.Seek(-3, SeekOrigin.Current);
                     return "";
                 }
 
                 byte strLen = binReader.ReadByte();
                 if (strLen == 0) {
-                    code = -1;
-                    return "";
+                    return string.Empty;
                 } else {
-                    code = 0;
+                    byte[] strBytes = binReader.ReadBytes(strLen * 2);
+                    return Encoding.Unicode.GetString(strBytes);
                 }
-
-                byte[] strBytes = binReader.ReadBytes(strLen * 2);
-                return Encoding.Unicode.GetString(strBytes);
             } else {
                 byte[] strBytes = new byte[255];
-                int i = 0;
                 byte bt;
                 bt = binReader.ReadByte();
-                if (bt == 0x02) {
-                    code = -1;
-                    binReader.BaseStream.Seek(+1, SeekOrigin.Current);
-                    return "";
+                if (bt == 0x0A) {
+                    return string.Empty;
                 } else {
-                    if (bt == 0x04) {
-                        code = -1;
-                        //binReader.BaseStream.Seek(-1, SeekOrigin.Current);
-                        return "";
-                    } else {
-                        code = 0;
-                        binReader.BaseStream.Seek(-1, SeekOrigin.Current);
-                    }
+                    binReader.BaseStream.Seek(-1, SeekOrigin.Current);
                 }
 
+                int i = 0;
                 while ((bt = binReader.ReadByte()) != 0x0A) {
                     strBytes[i] = bt;
                     i++;
                 }
-                return fEncoding.GetString(strBytes, 0, i);
+
+                if (i > 0) {
+                    return fEncoding.GetString(strBytes, 0, i);
+                } else {
+                    return string.Empty;
+                }
             }
         }
 
