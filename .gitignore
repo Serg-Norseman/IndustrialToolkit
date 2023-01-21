@@ -12,3 +12,6 @@
 
 /WCCTagsExtractor/bin/
 /WCCTagsExtractor/obj/
+
+/libs/OSIsoft.*.dll
+/libs/OSIsoft.*.xml
